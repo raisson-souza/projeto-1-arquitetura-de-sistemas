@@ -1,3 +1,4 @@
+import OrdersController from '../controllers/orders'
 import type { Express } from 'express'
 
 export default function BindOrdersRoute(app: Express) {
@@ -5,44 +6,19 @@ export default function BindOrdersRoute(app: Express) {
 
     app.route(ROUTE_NAME)
         .post((req, res) => {
-            try {
-                res.send('POST order')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            OrdersController.Create({ request: req, response: res })
         })
         .get((req, res) => {
-            try {
-                res.send('GET order')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            OrdersController.Get({ request: req, response: res })
         })
         .put((req, res) => {
-            try {
-                res.send('PUT order')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            OrdersController.Put({ request: req, response: res })
         })
         .delete((req, res) => {
-            try {
-                res.send('DELETE order')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            OrdersController.Delete({ request: req, response: res })
         })
 
     app.get(`${ROUTE_NAME}/list`, (req, res) => {
-        try {
-            res.send('LIST orders')
-        }
-        catch (ex) {
-            res.status(500).send(ex)
-        }
+        OrdersController.List({ request: req, response: res })
     })
 }

@@ -1,3 +1,4 @@
+import ProductsController from '../controllers/products'
 import type { Express } from 'express'
 
 export default function BindProductsRoute(app: Express) {
@@ -5,44 +6,19 @@ export default function BindProductsRoute(app: Express) {
 
     app.route(ROUTE_NAME)
         .post((req, res) => {
-            try {
-                res.send('POST product')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            ProductsController.Create({ request: req, response: res })
         })
         .get((req, res) => {
-            try {
-                res.send('GET product')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            ProductsController.Create({ request: req, response: res })
         })
         .put((req, res) => {
-            try {
-                res.send('PUT product')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            ProductsController.Create({ request: req, response: res })
         })
         .delete((req, res) => {
-            try {
-                res.send('DELETE product')
-            }
-            catch (ex) {
-                res.status(500).send(ex)
-            }
+            ProductsController.Create({ request: req, response: res })
         })
 
     app.get(`${ROUTE_NAME}/list`, (req, res) => {
-        try {
-            res.send('LIST products')
-        }
-        catch (ex) {
-            res.status(500).send(ex)
-        }
+        ProductsController.Create({ request: req, response: res })
     })
 }
