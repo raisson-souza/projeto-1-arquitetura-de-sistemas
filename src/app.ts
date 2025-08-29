@@ -1,12 +1,8 @@
+import BindExpress from './express';
+import dotenv from 'dotenv';
 import express from 'express';
 
+dotenv.config();
+
 const app = express();
-const port = 3000;
-
-app.get('/', (_, res) => {
-  res.send('Projeto 1 - Arquitetura de Sistemas');
-});
-
-app.listen(port, () => {
-  return console.log(`Express listening on http://localhost:${port}`);
-});
+BindExpress(app);
