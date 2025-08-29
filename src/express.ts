@@ -1,18 +1,25 @@
-import BindOrdersRoute from './routes/orders';
-import BindProductsRoute from './routes/products';
-import type { Express } from 'express';
+import BindOrdersRoute from './routes/orders'
+import BindProductsRoute from './routes/products'
+import express from 'express'
+import type { Express } from 'express'
 
 export default function BindExpress(app: Express) {
-    const port = process.env.PORT;
+    const port = process.env.PORT
 
-    app.get('/', (_, res) => {
-        res.send('Projeto 1 - Arquitetura de Sistemas');
-    });
+    const apiRouter = express.Router()
 
-    BindProductsRoute(app)
-    BindOrdersRoute(app)
+    apiRouter.get('/', (_, res) => {
+        res.send('Projeto 1 - Arquitetura de Sistemas')
+    })
+
+    const productsRouter = BindProductsRoute()
+    const ordersRouter = BindOrdersRoute()
+
+    app.use('/api', apiRouter)
+    app.use('/api/products', productsRouter)
+    app.use('/api/orders', ordersRouter)
 
     app.listen(port, () => {
-        return console.log(`Express listening on http://localhost:${port}`);
-    });
+        return console.log(`Express listening on http://localhost:${port}`)
+    })
 }

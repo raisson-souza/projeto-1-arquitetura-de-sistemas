@@ -1,24 +1,29 @@
+import express from 'express'
 import ProductsController from '../controllers/products'
-import type { Express } from 'express'
+import type { Router } from 'express'
 
-export default function BindProductsRoute(app: Express) {
-    const ROUTE_NAME = '/products'
+export default function BindProductsRoute(): Router {
+    const router = express.Router()
 
-    app.route(ROUTE_NAME)
-        .post((req, res) => {
-            ProductsController.Create({ request: req, response: res })
-        })
-        .get((req, res) => {
-            ProductsController.Create({ request: req, response: res })
-        })
-        .put((req, res) => {
-            ProductsController.Create({ request: req, response: res })
-        })
-        .delete((req, res) => {
-            ProductsController.Create({ request: req, response: res })
-        })
-
-    app.get(`${ROUTE_NAME}/list`, (req, res) => {
+    router.post("/", (req, res) => {
         ProductsController.Create({ request: req, response: res })
     })
+
+    router.get("/:id", (req, res) => {
+        ProductsController.Create({ request: req, response: res })
+    })
+
+    router.put("/", (req, res) => {
+        ProductsController.Create({ request: req, response: res })
+    })
+
+    router.delete("/:id", (req, res) => {
+        ProductsController.Create({ request: req, response: res })
+    })
+
+    router.get("/list", (req, res) => {
+        ProductsController.Create({ request: req, response: res })
+    })
+
+    return router
 }

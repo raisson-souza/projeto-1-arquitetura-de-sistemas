@@ -1,24 +1,29 @@
+import express from 'express'
 import OrdersController from '../controllers/orders'
-import type { Express } from 'express'
+import type { Router } from 'express'
 
-export default function BindOrdersRoute(app: Express) {
-    const ROUTE_NAME = '/orders'
+export default function BindOrdersRoute(): Router {
+    const router = express.Router()
 
-    app.route(ROUTE_NAME)
-        .post((req, res) => {
-            OrdersController.Create({ request: req, response: res })
-        })
-        .get((req, res) => {
-            OrdersController.Get({ request: req, response: res })
-        })
-        .put((req, res) => {
-            OrdersController.Put({ request: req, response: res })
-        })
-        .delete((req, res) => {
-            OrdersController.Delete({ request: req, response: res })
-        })
+    router.post("/", (req, res) => {
+        OrdersController.Create({ request: req, response: res })
+    })
 
-    app.get(`${ROUTE_NAME}/list`, (req, res) => {
+    router.get("/:id", (req, res) => {
+        OrdersController.Get({ request: req, response: res })
+    })
+
+    router.put("/", (req, res) => {
+        OrdersController.Put({ request: req, response: res })
+    })
+
+    router.delete("/", (req, res) => {
+        OrdersController.Delete({ request: req, response: res })
+    })
+
+    router.get("/list", (req, res) => {
         OrdersController.List({ request: req, response: res })
     })
+
+    return router
 }
