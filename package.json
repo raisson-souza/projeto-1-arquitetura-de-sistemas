@@ -2,9 +2,9 @@
   "name": "projeto-1-arquitetura-de-sistemas",
   "version": "1.0.0",
   "description": "Primeiro projeto da cadeira arquitetura de sistemas",
-  "main": "dist/app.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
+    "start": "tsc && node dist/index.js",
     "migrate": "prisma migrate dev --name init"
   },
   "author": "raisson",
