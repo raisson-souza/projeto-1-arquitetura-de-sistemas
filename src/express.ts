@@ -8,6 +8,8 @@ export default function BindExpress(app: Express) {
 
     const apiRouter = express.Router()
 
+    apiRouter.use(express.json())
+
     apiRouter.get('/', (_, res) => {
         res.send('Projeto 1 - Arquitetura de Sistemas')
     })

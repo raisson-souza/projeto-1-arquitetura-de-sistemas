@@ -5,6 +5,10 @@ import type { Router } from 'express'
 export default function BindOrdersRoute(): Router {
     const router = express.Router()
 
+    router.get("/list", (req, res) => {
+        OrdersController.List({ request: req, response: res })
+    })
+
     router.post("/", (req, res) => {
         OrdersController.Create({ request: req, response: res })
     })
@@ -19,10 +23,6 @@ export default function BindOrdersRoute(): Router {
 
     router.delete("/", (req, res) => {
         OrdersController.Delete({ request: req, response: res })
-    })
-
-    router.get("/list", (req, res) => {
-        OrdersController.List({ request: req, response: res })
     })
 
     return router

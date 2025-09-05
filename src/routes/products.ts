@@ -5,24 +5,24 @@ import type { Router } from 'express'
 export default function BindProductsRoute(): Router {
     const router = express.Router()
 
+    router.get("/list", (req, res) => {
+        ProductsController.List({ request: req, response: res })
+    })
+
     router.post("/", (req, res) => {
         ProductsController.Create({ request: req, response: res })
     })
 
     router.get("/:id", (req, res) => {
-        ProductsController.Create({ request: req, response: res })
+        ProductsController.Get({ request: req, response: res })
     })
 
     router.put("/", (req, res) => {
-        ProductsController.Create({ request: req, response: res })
+        ProductsController.Put({ request: req, response: res })
     })
 
     router.delete("/:id", (req, res) => {
-        ProductsController.Create({ request: req, response: res })
-    })
-
-    router.get("/list", (req, res) => {
-        ProductsController.Create({ request: req, response: res })
+        ProductsController.Delete({ request: req, response: res })
     })
 
     return router
