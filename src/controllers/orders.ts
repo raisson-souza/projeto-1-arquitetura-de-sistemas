@@ -1,7 +1,7 @@
 import { ControllerProps } from "../types/controller_props"
-import { ProductType } from "../servives/props/products"
+import { ProductType } from "../services/props/products"
 import CustomException from "../classes/CustomException"
-import OrdersService from "../servives/orders"
+import OrdersService from "../services/orders"
 
 export default abstract class OrdersController {
     static async Create({ request, response, next }: ControllerProps) {

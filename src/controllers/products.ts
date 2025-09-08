@@ -1,5 +1,5 @@
 import { ControllerProps } from "../types/controller_props"
-import ProductsService from "../servives/products"
+import ProductsService from "../services/products"
 
 export default abstract class ProductsController {
     static async Create({ request, response, next }: ControllerProps) {
