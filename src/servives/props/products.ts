@@ -1,3 +1,5 @@
+type ProductType = PutProduct
+
 type CreateProduct = {
     name: string
     price: number
@@ -15,6 +17,7 @@ type DeleteProduct = GetProduct
 type ListProducts = {}
 
 export type {
+    ProductType,
     CreateProduct,
     GetProduct,
     PutProduct,
