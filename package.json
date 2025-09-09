@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "migrate": "prisma migrate dev --name init"
+    "migrate": "prisma migrate dev",
+    "seed": "tsc && node dist/seeder.js",
+    "drop": "tsc && node dist/drop.js"
   },
   "author": "raisson",
   "license": "ISC",
