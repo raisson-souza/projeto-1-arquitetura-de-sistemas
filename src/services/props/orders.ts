@@ -1,7 +1,11 @@
-import { ProductType } from "./products"
+type OrderType = {
+    total: number
+    id: number
+    createdAt: Date
+}
 
 type CreateOrder = {
-    products: ProductType[]
+    productsIds: number[]
 }
 
 type GetOrder = {
@@ -20,4 +24,5 @@ export type {
     PutOrder,
     DeleteOrder,
     ListOrders,
+    OrderType,
 }

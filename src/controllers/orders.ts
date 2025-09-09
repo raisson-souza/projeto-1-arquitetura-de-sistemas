@@ -1,14 +1,12 @@
 import { ControllerProps } from "../types/controller_props"
-import { ProductType } from "../services/props/products"
 import CustomException from "../classes/CustomException"
 import OrdersService from "../services/orders"
 
 export default abstract class OrdersController {
     static async Create({ request, response, next }: ControllerProps) {
         try {
-            const products = this.GetProductsFromBody(request.body)
             response.send(await OrdersService.Create({
-                products: products,
+                productsIds: this.GetProductsFromBody(request.body),
             }))
         }
         catch (ex) {
@@ -29,10 +27,9 @@ export default abstract class OrdersController {
 
     static async Put({ request, response, next }: ControllerProps) {
         try {
-            const products = this.GetProductsFromBody(request.body)
             response.send(await OrdersService.Put({
                 id: request.body["id"],
-                products: products,
+                productsIds: this.GetProductsFromBody(request.body),
             }))
         }
         catch (ex) {
@@ -60,20 +57,15 @@ export default abstract class OrdersController {
         }
     }
 
-    private static GetProductsFromBody(body: any): ProductType[] {
+    private static GetProductsFromBody(body: any): number[] {
         try {
-            const products: ProductType[] = []
+            const productsIds: number[] = []
 
-            if (body["products"] != null || body["products"] != undefined) {
-                body["products"].map((product: any) => {
-                    products.push({
-                        id: product["id"],
-                        name: product["name"],
-                        price: product["price"],
-                        stock: product["stock"],
-                    })
+            if (body["productsIds"] != null || body["productsIds"] != undefined) {
+                body["productsIds"].map((productId: any) => {
+                    productsIds.push(productId)
                 })
-                return products
+                return productsIds
             }
             throw new CustomException(400, "Produtos não encontrados.")
         }

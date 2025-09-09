@@ -13,24 +13,28 @@ model Product {
   name          String
   price         Float
   stock         Int
-  ProductOrders ProductOrder[]
+  productOrders ProductOrder[]
   createdAt     DateTime       @default(now())
+  @@map("products")
 }
 
 model ProductOrder {
   id        Int      @id @default(autoincrement())
   quantity  Int
   value     Float
-  product   Product  @relation(fields: [productId], references: [id])
-  productId Int      @unique
-  order     Order    @relation(fields: [orderId], references: [id])
-  orderId   Int      @unique
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   Int
   createdAt DateTime @default(now())
+  @@unique([productId, orderId])
+  @@map("product_orders")
 }
 
 model Order {
   id            Int            @id @default(autoincrement())
-  ProductOrders ProductOrder[]
+  productOrders ProductOrder[]
   total         Float
   createdAt     DateTime       @default(now())
+  @@map("orders")
 }
