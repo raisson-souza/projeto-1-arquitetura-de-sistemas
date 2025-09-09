@@ -1,0 +1,21 @@
+services:
+  projeto-arquitetura-de-sistemas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    container_name: projeto-arquitetura-de-sistemas
+    env_file: ".env"
+    ports:
+      - "${DOCKER_PORT}:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "http://0.0.0.0:${DOCKER_PORT}/" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - projeto-arquitetura-de-sistemas-network
+
+networks:
+  projeto-arquitetura-de-sistemas-network:
+    driver: bridge
