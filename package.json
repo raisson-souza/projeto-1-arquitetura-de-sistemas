@@ -7,7 +7,7 @@
     "start": "tsc && node dist/index.js",
     "migrate": "prisma migrate dev",
     "seed": "tsc && node dist/seeder.js",
-    "drop": "tsc && node dist/drop.js"
+    "drop": "prisma migrate reset"
   },
   "author": "raisson",
   "license": "ISC",

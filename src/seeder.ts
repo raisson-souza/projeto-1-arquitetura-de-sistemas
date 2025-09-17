@@ -35,41 +35,28 @@ const seedDb = async () => {
         .then(() => console.log("Produtos semeados com sucesso"))
         .catch(ex => console.log(`Erro ao semear produtos. Erro: ${ (ex as Error).message }`))
 
-    await prisma.order.createMany({
-        data: [
-            // 2 cadeiras
-            { total: 30 },
-            // 1 copo e uma faca
-            { total: 8 },
-        ]
-    })
-        .then(() => console.log("Ordens semeados com sucesso"))
-        .catch(ex => console.log(`Erro ao semear ordens. Erro: ${ (ex as Error).message }`))
-
-    await prisma.productOrder.createMany({
+    await prisma.orderStatus.createMany({
         data: [
             {
-                orderId: 1,
-                productId: 1,
-                quantity: 2,
-                value: 30,
+                id: 1,
+                description: "aguardando pagamento",
             },
             {
-                orderId: 2,
-                productId: 4,
-                quantity: 1,
-                value: 5,
+                id: 2,
+                description: "falha no pagamento",
             },
             {
-                orderId: 2,
-                productId: 5,
-                quantity: 1,
-                value: 3,
+                id: 3,
+                description: "cancelado",
+            },
+            {
+                id: 4,
+                description: "pago",
             },
         ]
     })
-        .then(() => console.log("Ordens x Pedidos semeados com sucesso"))
-        .catch(ex => console.log(`Erro ao semear ordens x pedidos. Erro: ${ (ex as Error).message }`))
+        .then(() => console.log("Status de ordens semeados com sucesso"))
+        .catch(ex => console.log(`Erro ao semear status de ordens. Erro: ${ (ex as Error).message }`))
 }
 
 seedDb()

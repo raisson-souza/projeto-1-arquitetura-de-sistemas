@@ -36,5 +36,14 @@ model Order {
   productOrders ProductOrder[]
   total         Float
   createdAt     DateTime       @default(now())
+  statusId      Int            @default(1)
+  status        OrderStatus    @relation(fields: [statusId], references: [id], onDelete: Restrict)
   @@map("orders")
+}
+
+model OrderStatus {
+  id          Int      @id @default(autoincrement())
+  description String
+  orders      Order[]
+  @@map("order_status")
 }
