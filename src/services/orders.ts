@@ -1,23 +1,26 @@
 import { CreateOrder, DeleteOrder, GetOrder, ListOrders, OrderType, PutOrder } from "./props/orders"
+import { PrismaClient } from "@prisma/client"
 import { ProductType } from "./props/products"
 import CustomException from "../classes/CustomException"
 import prisma from "../prisma"
 
 export default abstract class OrdersService {
     static async Create(props: CreateOrder) {
-        const { products, total } = await this.CalculateTotalPrice(props.productsIds)
+        const { productsDb, total } = await this.CalculateTotalPrice(props.products)
 
         let order: OrderType | null = null
 
         await prisma.$transaction(async (trx) => {
-            order = await prisma.order.create({
+            order = await trx.order.create({
                 data: { total: total }
             })
 
-            for (const product of products) {
+            for (const product of productsDb) {
+                const quantity = props.products.filter(p => { return p.id === product.id })[0].quantity
+                await this.DecreaseProductStock(trx, product.id, quantity)
                 await trx.productOrder.create({
                     data: {
-                        quantity: props.productsIds.filter(id => { return id === product.id }).length,
+                        quantity: quantity,
                         value: product.price,
                         productId: product.id,
                         orderId: order.id,
@@ -42,8 +45,8 @@ export default abstract class OrdersService {
         return order
     }
 
-    static async Put(props: PutOrder) {
-        const { products, total } = await this.CalculateTotalPrice(props.productsIds)
+    static async Put(props: PutOrder) { // FIXME: Problemas ao editar ordem sem real alteração (o código sempre tenta subtrair estoque)
+        const { productsDb, total } = await this.CalculateTotalPrice(props.products)
 
         let order: OrderType | null = null
 
@@ -63,9 +66,10 @@ export default abstract class OrdersService {
             })
 
             for (const dbOrderProduct of allOrderProducts) {
-                const product = products.filter(p => { return p.id === dbOrderProduct.productId })
+                const product = productsDb.filter(p => { return p.id === dbOrderProduct.productId })
                 if (product.length > 0) {
-                    const quantity = props.productsIds.filter(id => { return id === product[0].id }).length
+                    const quantity = props.products.filter(p => { return p.id === product[0].id })[0].quantity
+                    await this.DecreaseProductStock(trx, product[0].id, quantity)
                     await trx.productOrder.update({
                         where: { id: dbOrderProduct.id },
                         data: {
@@ -80,12 +84,14 @@ export default abstract class OrdersService {
                     await trx.productOrder.delete({ where: { id: dbOrderProduct.id } })
             }
 
-            for (const product of products) {
+            for (const product of productsDb) {
                 const orderProductRelationAlreadyExists = (await trx.productOrder.findMany({ where: { orderId: props.id, productId: product.id  } })).length > 0
                 if (!orderProductRelationAlreadyExists) {
+                    const quantity = props.products.filter(p => { return p.id === product.id })[0].quantity
+                    await this.DecreaseProductStock(trx, product.id, quantity)
                     await trx.productOrder.create({
                         data: {
-                            quantity: props.productsIds.filter(id => { return id === product.id }).length,
+                            quantity: quantity,
                             value: product.price,
                             productId: product.id,
                             orderId: order.id,
@@ -128,24 +134,39 @@ export default abstract class OrdersService {
         })
     }
 
-    private static async CalculateTotalPrice(productsIds: number[]): Promise<{ products: ProductType[], total: number }> {
-        const products = await prisma.product.findMany({
+    private static async CalculateTotalPrice(products: {id: number, quantity: number}[]): Promise<{ productsDb: ProductType[], total: number }> {
+        const productsDb = await prisma.product.findMany({
             where: {
                 id: {
-                    in: productsIds,
+                    in: products.map(p => p.id),
                 },
             },
         })
 
-        let totalPrice = 0
-        products.map(p => {
-            const multiplier = productsIds.filter(id => { return id === p.id }).length
-            totalPrice += p.price * multiplier
+        let total = 0
+        productsDb.map(p => {
+            const multiplier = products.filter(pp => { return pp.id === p.id })
+            total += p.price * multiplier[0].quantity
         })
 
         return {
-            products: products,
-            total: totalPrice,
+            productsDb,
+            total,
         }
+    }
+
+    private static async DecreaseProductStock(trx: PrismaClient, productId: number, quantity: number): Promise<void> {
+        const product = await trx.product.findUnique({
+            where: { id: productId },
+            select: { stock: true },
+        })
+
+        if (product.stock - quantity < 0)
+            throw new CustomException(400, "Quantidade de produtos selecionados acima do estoque.")
+
+        await trx.product.update({
+            data: { stock: product.stock - quantity },
+            where: { id: productId }
+        })
     }
 }

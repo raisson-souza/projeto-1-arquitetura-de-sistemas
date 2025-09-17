@@ -6,7 +6,7 @@ export default abstract class OrdersController {
     static async Create({ request, response, next }: ControllerProps) {
         try {
             response.send(await OrdersService.Create({
-                productsIds: this.GetProductsFromBody(request.body),
+                products: this.GetProductsFromBody(request.body),
             }))
         }
         catch (ex) {
@@ -29,7 +29,7 @@ export default abstract class OrdersController {
         try {
             response.send(await OrdersService.Put({
                 id: request.body["id"],
-                productsIds: this.GetProductsFromBody(request.body),
+                products: this.GetProductsFromBody(request.body),
             }))
         }
         catch (ex) {
@@ -57,15 +57,18 @@ export default abstract class OrdersController {
         }
     }
 
-    private static GetProductsFromBody(body: any): number[] {
+    private static GetProductsFromBody(body: any): { id: number, quantity: number }[] {
         try {
-            const productsIds: number[] = []
+            const products: { id: number, quantity: number }[] = []
 
-            if (body["productsIds"] != null || body["productsIds"] != undefined) {
-                body["productsIds"].map((productId: any) => {
-                    productsIds.push(productId)
+            if (body["products"] != null || body["products"] != undefined) {
+                body["products"].map((product: any) => {
+                    products.push({
+                        id: product["id"],
+                        quantity: product["quantity"],
+                    })
                 })
-                return productsIds
+                return products
             }
             throw new CustomException(400, "Produtos não encontrados.")
         }

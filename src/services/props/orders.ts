@@ -5,7 +5,10 @@ type OrderType = {
 }
 
 type CreateOrder = {
-    productsIds: number[]
+    products: {
+        id: number
+        quantity: number
+    }[]
 }
 
 type GetOrder = {
