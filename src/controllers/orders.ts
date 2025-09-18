@@ -8,6 +8,7 @@ export default abstract class OrdersController {
             response.send(await OrdersService.Create({
                 products: this.GetProductsFromBody(request.body),
                 clientId: request.body["clientId"],
+                paymentMethodId: request.body["paymentMethodId"],
             }))
         }
         catch (ex) {
@@ -32,6 +33,7 @@ export default abstract class OrdersController {
                 id: request.body["id"],
                 products: this.GetProductsFromBody(request.body),
                 clientId: request.body["clientId"],
+                paymentMethodId: request.body["paymentMethodId"],
             }))
         }
         catch (ex) {

@@ -18,6 +18,7 @@ export default abstract class OrdersService {
                 data: {
                     clientId: client.id,
                     total: total,
+                    paymentMethodId: props.paymentMethodId,
                 },
             })
 
@@ -113,6 +114,7 @@ export default abstract class OrdersService {
                 data: {
                     total: total,
                     clientId: client.id,
+                    paymentMethodId: props.paymentMethodId,
                 },
             })
         })

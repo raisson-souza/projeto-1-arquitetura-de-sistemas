@@ -68,6 +68,25 @@ const seedDb = async () => {
     })
         .then(() => console.log("Clientes semeados com sucesso"))
         .catch(ex => console.log(`Erro ao semear clientes. Erro: ${ (ex as Error).message }`))
+
+    await prisma.paymentMethod.createMany({
+        data: [
+            {
+                id: 1,
+                description: "dinheiro",
+            },
+            {
+                id: 2,
+                description: "boleto",
+            },
+            {
+                id: 3,
+                description: "cartão de crédito",
+            },
+        ]
+    })
+        .then(() => console.log("Métodos de pagamento semeados com sucesso"))
+        .catch(ex => console.log(`Erro ao semear métodos de pagamento. Erro: ${ (ex as Error).message }`))
 }
 
 seedDb()

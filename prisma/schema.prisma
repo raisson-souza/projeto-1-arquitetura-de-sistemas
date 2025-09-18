@@ -32,14 +32,16 @@ model ProductOrder {
 }
 
 model Order {
-  id            Int            @id @default(autoincrement())
-  productOrders ProductOrder[]
-  total         Float
-  createdAt     DateTime       @default(now())
-  statusId      Int            @default(1)
-  status        OrderStatus    @relation(fields: [statusId], references: [id], onDelete: Restrict)
-  clientId      Int
-  client        Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  id              Int            @id @default(autoincrement())
+  productOrders   ProductOrder[]
+  total           Float
+  createdAt       DateTime       @default(now())
+  statusId        Int            @default(1)
+  status          OrderStatus    @relation(fields: [statusId], references: [id], onDelete: Restrict)
+  clientId        Int
+  client          Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  paymentMethodId Int
+  payment         PaymentMethod  @relation(fields: [paymentMethodId], references: [id], onDelete: Restrict)
   @@map("orders")
 }
 
@@ -56,4 +58,11 @@ model Client {
   email  String
   orders Order[]
   @@map("clients")
+}
+
+model PaymentMethod {
+  id          Int       @id @default(autoincrement())
+  description String
+  orders      Order[]
+  @@map("payment_methods")
 }

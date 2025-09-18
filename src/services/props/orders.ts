@@ -3,10 +3,12 @@ type OrderType = {
     id: number
     createdAt: Date
     clientId: number
+    paymentMethodId: number
 }
 
 type CreateOrder = {
     clientId: number
+    paymentMethodId: number
     products: {
         id: number
         quantity: number
