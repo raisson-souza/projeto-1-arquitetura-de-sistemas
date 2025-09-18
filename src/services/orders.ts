@@ -5,7 +5,7 @@ import { ProductType } from "./props/products"
 import CustomException from "../classes/CustomException"
 import prisma from "../prisma"
 
-export default abstract class ClientsService {
+export default abstract class OrdersService {
     static async Create(props: CreateOrder) {
         const { productsDb, total } = await this.CalculateTotalPrice(props.products)
 
