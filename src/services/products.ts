@@ -1,4 +1,5 @@
-import { CreateProduct, DeleteProduct, GetProduct, ListProducts, PutProduct } from "./props/products"
+import { CreateProduct, DeleteProduct, GetProduct, ListProducts, PutProduct, UpdateStock } from "./props/products"
+import CustomException from "../classes/CustomException"
 import prisma from "../prisma"
 
 export default abstract class ProductsService {
@@ -25,6 +26,20 @@ export default abstract class ProductsService {
             },
             where: {
                 id: props.id,
+            },
+        })
+    }
+
+    static async UpdateStock(props: UpdateStock) {
+        if (props.quantity <= 0)
+            throw new CustomException(400, "Quantidade de estoque novo inválida.")
+
+        return await prisma.product.update({
+            data: {
+                stock: props.quantity,
+            },
+            where: {
+                id: props.productId,
             },
         })
     }

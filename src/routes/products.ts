@@ -21,6 +21,10 @@ export default function BindProductsRoute(): Router {
         ProductsController.Put({ request: req, response: res, next })
     })
 
+    router.put("/update_stock/:productId", (req, res, next) => {
+        ProductsController.UpdateStock({ request: req, response: res, next })
+    })
+
     router.delete("/:id", (req, res, next) => {
         ProductsController.Delete({ request: req, response: res, next })
     })

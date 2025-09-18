@@ -10,11 +10,16 @@ type GetProduct = {
     id: number
 }
 
-type PutProduct = CreateProduct & GetProduct
+type PutProduct = Omit<CreateProduct, "stock"> & GetProduct
 
 type DeleteProduct = GetProduct
 
 type ListProducts = {}
+
+type UpdateStock = {
+    productId: number
+    quantity: number
+}
 
 export type {
     ProductType,
@@ -23,4 +28,5 @@ export type {
     PutProduct,
     DeleteProduct,
     ListProducts,
+    UpdateStock,
 }

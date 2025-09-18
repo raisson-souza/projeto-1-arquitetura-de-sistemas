@@ -26,13 +26,24 @@ export default abstract class ProductsController {
         }
     }
 
+    static async UpdateStock({ request, response, next }: ControllerProps) {
+        try {
+            response.send(await ProductsService.UpdateStock({
+                productId: Number.parseInt(request.params["productId"]),
+                quantity: request.body["quantity"],
+            }))
+        }
+        catch (ex) {
+            next(ex)
+        }
+    }
+
     static async Put({ request, response, next }: ControllerProps) {
         try {
             response.send(await ProductsService.Put({
                 id: request.body["id"],
                 name: request.body["name"],
                 price: request.body["price"],
-                stock: request.body["stock"],
             }))
         }
         catch (ex) {
