@@ -1,5 +1,5 @@
 import { ClientType } from "./props/clients"
-import { CreateOrder, DeleteOrder, GetOrder, ListOrders, OrderType, PutOrder } from "./props/orders"
+import { CreateOrder, DeleteOrder, GetOrder, ListOrders, ListOrdersByClient, OrderType, PutOrder } from "./props/orders"
 import { PrismaClient } from "@prisma/client"
 import { ProductType } from "./props/products"
 import CustomException from "../classes/CustomException"
@@ -141,6 +141,17 @@ export default abstract class ClientsService {
         return await prisma.order.findMany({
             orderBy: {
                 id: "asc",
+            },
+        })
+    }
+
+    static async ListByClient(props: ListOrdersByClient) {
+        return await prisma.order.findMany({
+            orderBy: {
+                id: "asc",
+            },
+            where: {
+                clientId: props.clientId,
             },
         })
     }

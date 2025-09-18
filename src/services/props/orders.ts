@@ -23,6 +23,10 @@ type DeleteOrder = GetOrder
 
 type ListOrders = {}
 
+type ListOrdersByClient = {
+    clientId: number
+}
+
 export type {
     CreateOrder,
     GetOrder,
@@ -30,4 +34,5 @@ export type {
     DeleteOrder,
     ListOrders,
     OrderType,
+    ListOrdersByClient,
 }

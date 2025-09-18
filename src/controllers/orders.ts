@@ -59,6 +59,17 @@ export default abstract class OrdersController {
         }
     }
 
+    static async ListOrdersByClient({ request, response, next }: ControllerProps) {
+        try {
+            response.send(await OrdersService.ListByClient({
+                clientId: Number.parseInt(request.params["clientId"]),
+            }))
+        }
+        catch (ex) {
+            next(ex)
+        }
+    }
+
     private static GetProductsFromBody(body: any): { id: number, quantity: number }[] {
         try {
             const products: { id: number, quantity: number }[] = []

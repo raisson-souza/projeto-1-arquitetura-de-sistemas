@@ -21,8 +21,12 @@ export default function BindOrdersRoute(): Router {
         OrdersController.Put({ request: req, response: res, next })
     })
 
-    router.delete("/:id", (req, res, next) => {
-        OrdersController.Delete({ request: req, response: res, next })
+    router.get("/list_orders_by_client/:clientId", (req, res, next) => {
+        OrdersController.ListOrdersByClient({ request: req, response: res, next })
+    })
+
+    router.get("/:id", (req, res, next) => {
+        OrdersController.Get({ request: req, response: res, next })
     })
 
     return router
