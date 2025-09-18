@@ -57,6 +57,17 @@ const seedDb = async () => {
     })
         .then(() => console.log("Status de ordens semeados com sucesso"))
         .catch(ex => console.log(`Erro ao semear status de ordens. Erro: ${ (ex as Error).message }`))
+
+    await prisma.client.createMany({
+        data: [
+            {
+                name: "Usuário",
+                email: "usuario@email.com",
+            },
+        ]
+    })
+        .then(() => console.log("Clientes semeados com sucesso"))
+        .catch(ex => console.log(`Erro ao semear clientes. Erro: ${ (ex as Error).message }`))
 }
 
 seedDb()

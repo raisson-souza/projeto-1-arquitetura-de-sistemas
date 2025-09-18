@@ -1,18 +1,24 @@
+import { ClientType } from "./props/clients"
 import { CreateOrder, DeleteOrder, GetOrder, ListOrders, OrderType, PutOrder } from "./props/orders"
 import { PrismaClient } from "@prisma/client"
 import { ProductType } from "./props/products"
 import CustomException from "../classes/CustomException"
 import prisma from "../prisma"
 
-export default abstract class OrdersService {
+export default abstract class ClientsService {
     static async Create(props: CreateOrder) {
         const { productsDb, total } = await this.CalculateTotalPrice(props.products)
 
         let order: OrderType | null = null
 
+        const client = await this.GetClient(props.clientId)
+
         await prisma.$transaction(async (trx) => {
             order = await trx.order.create({
-                data: { total: total }
+                data: {
+                    clientId: client.id,
+                    total: total,
+                },
             })
 
             for (const product of productsDb) {
@@ -49,6 +55,8 @@ export default abstract class OrdersService {
         const { productsDb, total } = await this.CalculateTotalPrice(props.products)
 
         let order: OrderType | null = null
+
+        const client = await this.GetClient(props.clientId)
 
         await prisma.$transaction(async (trx) => {
             order = await trx.order.findUnique({
@@ -102,7 +110,10 @@ export default abstract class OrdersService {
 
             order = await trx.order.update({
                 where: { id: props.id },
-                data: { total: total }
+                data: {
+                    total: total,
+                    clientId: client.id,
+                },
             })
         })
 
@@ -168,5 +179,14 @@ export default abstract class OrdersService {
             data: { stock: product.stock - quantity },
             where: { id: productId }
         })
+    }
+
+    private static async GetClient(clientId: number): Promise<ClientType | null> {
+        return await prisma.client.findUnique({ where: { id: clientId }})
+            .then(result => {
+                if (result === null)
+                    throw new CustomException(400, "Cliente não encontrado.")
+                return result
+            })
     }
 }

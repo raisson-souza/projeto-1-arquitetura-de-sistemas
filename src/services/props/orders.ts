@@ -2,9 +2,11 @@ type OrderType = {
     total: number
     id: number
     createdAt: Date
+    clientId: number
 }
 
 type CreateOrder = {
+    clientId: number
     products: {
         id: number
         quantity: number

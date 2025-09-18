@@ -1,3 +1,4 @@
+import BindClientsRoute from './routes/clients'
 import BindOrdersRoute from './routes/orders'
 import BindProductsRoute from './routes/products'
 import express from 'express'
@@ -16,10 +17,12 @@ export default function BindExpress(app: Express) {
 
     const productsRouter = BindProductsRoute()
     const ordersRouter = BindOrdersRoute()
+    const clientsRouter = BindClientsRoute()
 
     app.use('/api', apiRouter)
     app.use('/api/products', productsRouter)
     app.use('/api/orders', ordersRouter)
+    app.use('/api/clients', clientsRouter)
 
     app.listen(port, () => {
         return console.log(`Express listening on http://localhost:${port}`)

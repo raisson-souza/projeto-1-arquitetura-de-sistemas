@@ -7,6 +7,7 @@ export default abstract class OrdersController {
         try {
             response.send(await OrdersService.Create({
                 products: this.GetProductsFromBody(request.body),
+                clientId: request.body["clientId"],
             }))
         }
         catch (ex) {
@@ -30,6 +31,7 @@ export default abstract class OrdersController {
             response.send(await OrdersService.Put({
                 id: request.body["id"],
                 products: this.GetProductsFromBody(request.body),
+                clientId: request.body["clientId"],
             }))
         }
         catch (ex) {
