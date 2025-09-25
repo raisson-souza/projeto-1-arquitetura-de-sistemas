@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  type      UserType @relation(fields: [typeId], references: [id], onDelete: Restrict)
+  typeId    Int
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  @@map("users")
+}
+
+model UserType {
+  id           Int    @id @default(autoincrement())
+  description  String
+  users        User[]
+  @@map("user_types")
+}
