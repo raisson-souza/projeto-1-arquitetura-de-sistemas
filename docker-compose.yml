@@ -135,17 +135,17 @@ services:
     networks:
       - user-db-network
 
-  # order-db:
-  #   image: mongo:8
-  #   container_name: order-db
-  #   env_file: ".env"
-  #   restart: unless-stopped
-  #   ports:
-  #     - "${ORDER_DB_PORT}:27017"
-  #   volumes:
-  #     - order-db-volume:/data/db
-  #   networks:
-  #     - order-db-network
+  order-db:
+    image: mongo:8
+    container_name: order-db
+    env_file: ".env"
+    restart: unless-stopped
+    ports:
+      - "${ORDER_DB_PORT}:27017"
+    volumes:
+      - order-db-volume:/data/db
+    networks:
+      - order-db-network
 
 volumes:
   product-db-volume:
