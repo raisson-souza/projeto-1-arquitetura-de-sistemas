@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express"
+import BodyChecker from "./utils"
 import Service from "./service"
 
 type ControllerType = {
@@ -10,6 +11,7 @@ type ControllerType = {
 export default abstract class Controller {
     static async Create({ req, res, next }: ControllerType): Promise<void> {
         try {
+            BodyChecker(req.body, ["orderId", "total"])
             const paymentOrder = await Service.Create({
                 paymentOrderModel: {
                     orderId: req.body.orderId,
@@ -17,7 +19,7 @@ export default abstract class Controller {
                     total: req.body.total,
                 },
             })
-            res.status(201).send(paymentOrder)
+            res.status(201).json(paymentOrder)
         }
         catch (ex) {
             next(ex)
@@ -29,7 +31,7 @@ export default abstract class Controller {
             const paymentOrder = await Service.Get({
                 id: parseInt(req.query["id"] as string),
             })
-            res.send(paymentOrder)
+            res.json(paymentOrder)
         }
         catch (ex) {
             next(ex)
@@ -38,6 +40,7 @@ export default abstract class Controller {
 
     static async Update({ req, res, next }: ControllerType): Promise<void> {
         try {
+        BodyChecker(req.body, ["orderId", "statusId", "total", "createdAt", "deleted", "id"])
             const paymentOrder = await Service.Update({
                 paymentOrderModel: {
                     orderId: req.body.orderId,
@@ -48,7 +51,7 @@ export default abstract class Controller {
                     id: parseInt(req.body.id),
                 },
             })
-            res.send(paymentOrder)
+            res.json(paymentOrder)
         }
         catch (ex) {
             next(ex)
@@ -70,7 +73,7 @@ export default abstract class Controller {
     static async List({ res, next }: ControllerType): Promise<void> {
         try {
             const paymentOrders = await Service.List({})
-            res.send(paymentOrders)
+            res.json(paymentOrders)
         }
         catch (ex) {
             next(ex)

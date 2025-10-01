@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
-import Service from "./service"
 import BodyChecker from "./utils"
+import Service from "./service"
 
 type ControllerType = {
     req: Request
@@ -17,7 +17,7 @@ export default abstract class Controller {
                     deviceId: req.body.deviceId,
                 },
             })
-            res.status(201).send("Notificação enviada com sucesso.")
+            res.send("Notificação enviada com sucesso.")
         }
         catch (ex) {
             next(ex)

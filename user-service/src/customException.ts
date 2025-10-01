@@ -14,18 +14,20 @@ export class CustomException extends Error {
     }
 }
 
-export class NotFoundException extends Error {
-    statusCode: number
-
+export class NotFoundException extends CustomException {
     constructor() {
-        super("Registro não encontrado.")
-        this.statusCode = 404
+        super(404, "Registro não encontrado.")
     }
+}
 
-    getError() {
-        return {
-            "statusCode": this.statusCode,
-            "error": this.message,
-        }
+export class DeletedResourceException extends CustomException {
+    constructor() {
+        super(404, "Registro não encontrado.")
+    }
+}
+
+export class ClientException extends CustomException {
+    constructor(message: string) {
+        super(400, message)
     }
 }

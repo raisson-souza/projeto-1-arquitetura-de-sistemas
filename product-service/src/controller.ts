@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express"
+import BodyChecker from "./utils"
 import Service from "./service"
 
 type ControllerType = {
@@ -10,6 +11,7 @@ type ControllerType = {
 export default abstract class Controller {
     static async Create({ req, res, next }: ControllerType): Promise<void> {
         try {
+            BodyChecker(req.body, ["name", "price", "stock"])
             const product = await Service.Create({
                 productModel: {
                     name: req.body.name,
@@ -17,7 +19,7 @@ export default abstract class Controller {
                     stock: req.body.stock,
                 },
             })
-            res.status(201).send(product)
+            res.status(201).json(product)
         }
         catch (ex) {
             next(ex)
@@ -29,7 +31,7 @@ export default abstract class Controller {
             const product = await Service.Get({
                 id: parseInt(req.query["id"] as string),
             })
-            res.send(product)
+            res.json(product)
         }
         catch (ex) {
             next(ex)
@@ -38,6 +40,7 @@ export default abstract class Controller {
 
     static async Update({ req, res, next }: ControllerType): Promise<void> {
         try {
+            BodyChecker(req.body, ["name", "price", "stock", "createdAt", "deleted", "id"])
             const product = await Service.Update({
                 productModel: {
                     name: req.body.name,
@@ -48,7 +51,7 @@ export default abstract class Controller {
                     id: parseInt(req.body.id),
                 },
             })
-            res.send(product)
+            res.json(product)
         }
         catch (ex) {
             next(ex)
@@ -70,7 +73,7 @@ export default abstract class Controller {
     static async List({ res, next }: ControllerType): Promise<void> {
         try {
             const products = await Service.List({})
-            res.send(products)
+            res.json(products)
         }
         catch (ex) {
             next(ex)

@@ -1,6 +1,6 @@
-import { CustomException, NotFoundException } from "./CustomException";
-import Repository from "./repository";
+import { CustomException, NotFoundException } from "./customException";
 import { User, UserInput } from "./types";
+import Repository from "./repository";
 
 type CreateProps = {
     userModel: UserInput
