@@ -13,3 +13,51 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model PaymentOrder { // Pagamento agrupado (geral) de pedido
+  id        Int                @id @default(autoincrement())
+  total     Decimal
+  orderId   Int
+  statusId  Int                @default(1)
+  status    PaymentOrderStatus @relation(fields: [statusId], references: [id], onDelete: Restrict)
+  payments  Payment[]
+  createdAt DateTime           @default(now())
+  deleted   Boolean            @default(false)
+  @@map("payment_orders")
+}
+
+model PaymentOrderStatus { // Status do agrupamento de pagamento
+  id          Int               @id @default(autoincrement())
+  description String
+  orders      PaymentOrder[]
+  @@map("payment_order_status")
+}
+
+model Payment { // Pagamento individual de um agrupamento de pagamento (pagamento específico em)
+  id              Int            @id @default(autoincrement())
+  total           Decimal
+  transactionId   String? // ID da transação para pagamentos externos
+  statusId        Int            @default(1)
+  status          PaymentStatus  @relation(fields: [statusId], references: [id], onDelete: Restrict)
+  paymentMethodId Int
+  payment         PaymentMethod  @relation(fields: [paymentMethodId], references: [id], onDelete: Restrict)
+  paymentOrderId  Int
+  paymentOrder    PaymentOrder   @relation(fields: [paymentOrderId], references: [id], onDelete: Restrict)
+  createdAt       DateTime       @default(now())
+  deleted         Boolean        @default(false)
+  @@map("payments")
+}
+
+model PaymentStatus { // Status de um pagamento
+  id          Int         @id @default(autoincrement())
+  description String
+  payments    Payment[]
+  @@map("payment_status")
+}
+
+model PaymentMethod { // Método de um pagamento
+  id          Int          @id @default(autoincrement())
+  payments    Payment[]
+  description String
+  @@map("payment_methods")
+}

@@ -10,14 +10,14 @@ type ControllerType = {
 export default abstract class Controller {
     static async Create({ req, res, next }: ControllerType): Promise<void> {
         try {
-            const product = await Service.Create({
-                productModel: {
-                    name: req.body.name,
-                    price: req.body.price,
-                    stock: req.body.stock,
+            const paymentOrder = await Service.Create({
+                paymentOrderModel: {
+                    orderId: req.body.orderId,
+                    statusId: req.body.statusId,
+                    total: req.body.total,
                 },
             })
-            res.status(201).send(product)
+            res.status(201).send(paymentOrder)
         }
         catch (ex) {
             next(ex)
@@ -26,10 +26,10 @@ export default abstract class Controller {
 
     static async Get({ req, res, next }: ControllerType): Promise<void> {
         try {
-            const product = await Service.Get({
+            const paymentOrder = await Service.Get({
                 id: parseInt(req.query["id"] as string),
             })
-            res.send(product)
+            res.send(paymentOrder)
         }
         catch (ex) {
             next(ex)
@@ -38,17 +38,17 @@ export default abstract class Controller {
 
     static async Update({ req, res, next }: ControllerType): Promise<void> {
         try {
-            const product = await Service.Update({
-                productModel: {
-                    name: req.body.name,
-                    price: req.body.price,
-                    stock: req.body.stock,
+            const paymentOrder = await Service.Update({
+                paymentOrderModel: {
+                    orderId: req.body.orderId,
+                    statusId: req.body.statusId,
+                    total: req.body.total,
                     createdAt: new Date(req.body.createdAt),
                     deleted: req.body.deleted,
                     id: parseInt(req.body.id),
                 },
             })
-            res.send(product)
+            res.send(paymentOrder)
         }
         catch (ex) {
             next(ex)
@@ -69,8 +69,8 @@ export default abstract class Controller {
 
     static async List({ res, next }: ControllerType): Promise<void> {
         try {
-            const products = await Service.List({})
-            res.send(products)
+            const paymentOrders = await Service.List({})
+            res.send(paymentOrders)
         }
         catch (ex) {
             next(ex)
