@@ -2,8 +2,6 @@ FROM node:24-alpine
 WORKDIR /app
 COPY package*.json ./
 COPY . .
+EXPOSE 8000
 RUN npm i
-EXPOSE 8002
-RUN npx prisma migrate dev
-RUN npm run seed
 CMD ["npm", "start"]

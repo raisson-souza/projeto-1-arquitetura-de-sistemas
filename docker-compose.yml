@@ -1,89 +1,4 @@
 services:
-  # notification-service:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   container_name: notification-service
-  #   env_file: ".env"
-  #   ports:
-  #     - "${NOTIFICATION_SERVICE_PORT}:8000"
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "http://0.0.0.0:${NOTIFICATION_SERVICE_PORT}/" ]
-  #     interval: 5s
-  #     timeout: 3s
-  #     retries: 3
-  #   networks:
-  #     - notification-service-network
-
-  # order-service:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   container_name: order-service
-  #   env_file: ".env"
-  #   ports:
-  #     - "${ORDER_SERVICE_PORT}:8000"
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "http://0.0.0.0:${ORDER_SERVICE_PORT}/" ]
-  #     interval: 5s
-  #     timeout: 3s
-  #     retries: 3
-  #   networks:
-  #     - order-service-network
-
-  # payment-service:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   container_name: payment-service
-  #   env_file: ".env"
-  #   ports:
-  #     - "${PAYMENT_SERVICE_PORT}:8000"
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "http://0.0.0.0:${PAYMENT_SERVICE_PORT}/" ]
-  #     interval: 5s
-  #     timeout: 3s
-  #     retries: 3
-  #   networks:
-  #     - payment-service-network
-
-  # product-service:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   container_name: product-service
-  #   env_file: ".env"
-  #   ports:
-  #     - "${PRODUCT_SERVICE_PORT}:8000"
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "http://0.0.0.0:${PRODUCT_SERVICE_PORT}/" ]
-  #     interval: 5s
-  #     timeout: 3s
-  #     retries: 3
-  #   networks:
-  #     - product-service-network
-
-  # user-service:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   container_name: user-service
-  #   env_file: ".env"
-  #   ports:
-  #     - "${USER_SERVICE_PORT}:8000"
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "http://0.0.0.0:${USER_SERVICE_PORT}/" ]
-  #     interval: 5s
-  #     timeout: 3s
-  #     retries: 3
-  #   networks:
-  #     - user-service-network
-
   product-db:
     image: postgres:17
     container_name: product-db
@@ -96,10 +11,13 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
+    expose:
+      - "5432"
+      - "3000"
     volumes:
       - product-db-volume:/var/lib/postgresql/data
     networks:
-      - product-db-network
+      - project-network
 
   payment-db:
     image: postgres:17
@@ -113,10 +31,13 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
+    expose:
+      - "5432"
+      - "3001"
     volumes:
       - payment-db-volume:/var/lib/postgresql/data
     networks:
-      - payment-db-network
+      - project-network
 
   user-db:
     image: postgres:17
@@ -130,22 +51,124 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
+    expose:
+      - "5432"
+      - "3002"
     volumes:
       - user-db-volume:/var/lib/postgresql/data
     networks:
-      - user-db-network
+      - project-network
 
   order-db:
     image: mongo:8
     container_name: order-db
     env_file: ".env"
     restart: unless-stopped
+    expose:
+      - "5432"
+      - "3003"
     ports:
       - "${ORDER_DB_PORT}:27017"
     volumes:
       - order-db-volume:/data/db
     networks:
-      - order-db-network
+      - project-network
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: notification-service
+    env_file: ".env"
+    ports:
+      - "${NOTIFICATION_SERVICE_PORT}:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "http://0.0.0.0:${NOTIFICATION_SERVICE_PORT}/" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - project-network
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    depends_on:
+      - order-db
+    restart: unless-stopped
+    container_name: order-service
+    env_file: ".env"
+    ports:
+      - "${ORDER_SERVICE_PORT}:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "http://0.0.0.0:${ORDER_SERVICE_PORT}/" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - project-network
+
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    depends_on:
+      payment-db:
+        condition: service_healthy
+    restart: unless-stopped
+    container_name: payment-service
+    env_file: ".env"
+    ports:
+      - "${PAYMENT_SERVICE_PORT}:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "http://0.0.0.0:${PAYMENT_SERVICE_PORT}/" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - project-network
+
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    depends_on:
+      product-db:
+        condition: service_healthy
+    restart: unless-stopped
+    container_name: product-service
+    env_file: ".env"
+    ports:
+      - "${PRODUCT_SERVICE_PORT}:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "http://0.0.0.0:${PRODUCT_SERVICE_PORT}/" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - project-network
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    depends_on:
+      user-db:
+        condition: service_healthy
+    restart: unless-stopped
+    container_name: user-service
+    env_file: ".env"
+    ports:
+      - "${USER_SERVICE_PORT}:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "http://0.0.0.0:${USER_SERVICE_PORT}/" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - project-network
 
 volumes:
   product-db-volume:
@@ -155,13 +178,5 @@ volumes:
     driver: local
 
 networks:
-  notification-service-network:
-  order-service-network:
-  payment-service-network:
-  product-service-network:
-  user-service-network:
-  product-db-network:
-  payment-db-network:
-  user-db-network:
-  order-db-network:
+  project-network:
     driver: bridge

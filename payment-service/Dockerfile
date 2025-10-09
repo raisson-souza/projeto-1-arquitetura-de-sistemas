@@ -1,9 +1,10 @@
 FROM node:24-alpine
 WORKDIR /app
 COPY package*.json ./
+COPY prisma ./prisma/
 COPY . .
-RUN npm i
 EXPOSE 8002
-RUN npx prisma migrate dev
-RUN npm run seed
+RUN npm i
+RUN npx prisma generate
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD ["npm", "start"]
