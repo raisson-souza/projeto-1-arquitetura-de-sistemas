@@ -30,7 +30,7 @@ export default abstract class Repository {
 
     static async Get({ id }: GetProps): Promise<User | null> {
         return await prisma.user.findFirst({
-            where: { id: id },
+            where: { id: id, deleted: false },
         })
             .then(result => {
                 if (result === null)
@@ -54,6 +54,8 @@ export default abstract class Repository {
     }
 
     static async List({}: ListProps): Promise<User[]> {
-        return await prisma.user.findMany()
+        return await prisma.user.findMany({
+            where: { deleted: false },
+        })
     }
 }

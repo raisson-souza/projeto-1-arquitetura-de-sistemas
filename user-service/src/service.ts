@@ -1,4 +1,4 @@
-import { CustomException, NotFoundException } from "./customException";
+import { ClientException, CustomException, NotFoundException } from "./customException";
 import { User, UserInput } from "./types";
 import Repository from "./repository";
 
@@ -23,6 +23,9 @@ export default abstract class Service {
         if (userModel.typeId <= 0 || userModel.typeId > 3)
             throw new CustomException(400, "Tipo de usuário inválido.")
 
+        if (userModel.email.trim() === "" || userModel.name.trim() === "")
+            throw new ClientException("Informações do usuário inválidas.")
+
         return await Repository.Create({ userModel })
     }
 
@@ -40,6 +43,12 @@ export default abstract class Service {
 
         if (user === null)
             throw new NotFoundException()
+
+        if (userModel.typeId <= 0 || userModel.typeId > 3)
+            throw new CustomException(400, "Tipo de usuário inválido.")
+
+        if (userModel.email.trim() === "" || userModel.name.trim() === "")
+            throw new ClientException("Informações do usuário inválidas.")
 
         return await Repository.Update({ userModel })
     }
