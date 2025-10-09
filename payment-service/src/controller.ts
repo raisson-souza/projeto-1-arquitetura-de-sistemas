@@ -11,12 +11,12 @@ type ControllerType = {
 export default abstract class Controller {
     static async Create({ req, res, next }: ControllerType): Promise<void> {
         try {
-            BodyChecker(req.body, ["orderId", "total"])
+            BodyChecker(req.body, ["orderId", "total", "payments"])
             const paymentOrder = await Service.Create({
                 paymentOrderModel: {
                     orderId: req.body.orderId,
-                    statusId: req.body.statusId,
                     total: req.body.total,
+                    payments: req.body.payments,
                 },
             })
             res.status(201).json(paymentOrder)
@@ -40,7 +40,7 @@ export default abstract class Controller {
 
     static async Update({ req, res, next }: ControllerType): Promise<void> {
         try {
-        BodyChecker(req.body, ["orderId", "statusId", "total", "createdAt", "deleted", "id"])
+        BodyChecker(req.body, ["orderId", "statusId", "total", "createdAt", "deleted", "id", "payments"])
             const paymentOrder = await Service.Update({
                 paymentOrderModel: {
                     orderId: req.body.orderId,
@@ -49,6 +49,7 @@ export default abstract class Controller {
                     createdAt: new Date(req.body.createdAt),
                     deleted: req.body.deleted,
                     id: parseInt(req.body.id),
+                    payments: req.body.payments,
                 },
             })
             res.json(paymentOrder)

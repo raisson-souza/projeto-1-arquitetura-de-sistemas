@@ -18,11 +18,10 @@ type DeleteProps = GetProps
 
 type ListProps = {}
 
+type ApprovePaymentOrderProps = GetProps
+
 export default abstract class Service {
     static async Create({ paymentOrderModel }: CreateProps): Promise<PaymentOrder> {
-        if (paymentOrderModel.statusId < 1 || paymentOrderModel.statusId > 4)
-            throw new ClientException("Tipo de status inválido.")
-
         if (paymentOrderModel.total as unknown as number < 0)
             throw new ClientException("Valor de pagamento inválido.")
 
@@ -71,5 +70,17 @@ export default abstract class Service {
 
     static async ListMethods({}: ListProps): Promise<PaymentMethod[]> {
         return await Repository.ListMethods({})
+    }
+
+    static async ApprovePaymentOrder({ id }: ApprovePaymentOrderProps): Promise<void> {
+        const paymentOrder = await this.Get({ id: id })
+        const now = new Date().getTime().toString()
+        const approved = Number.parseInt(now[now.length - 1]) > 5
+        await Repository.Update({
+            paymentOrderModel: {
+                ...paymentOrder,
+                statusId: approved ? 2 : 3,
+            }
+        })
     }
 }

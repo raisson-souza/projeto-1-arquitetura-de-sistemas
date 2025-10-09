@@ -15,18 +15,21 @@ export type PaymentOrder = {
     id: number
     total: Decimal
     orderId: number
-    statusId?: number
+    statusId: number
+    payments: Payment[]
     createdAt: Date
     deleted: boolean
 }
 
-export type PaymentOrderInput = OMITER<PaymentOrder>
+export type PaymentOrderInput = {
+    payments: PaymentInput[]
+} & OMITER<Omit<PaymentOrder, "statusId" | "payments">>
 
 export type PaymentOrderStatus = REFERENCE_TYPE
 
 export type Payment = {
     id: number
-    total: number
+    total: Decimal
     statusId: number
     transactionId: string | null
     paymentMethodId: number
@@ -35,7 +38,7 @@ export type Payment = {
     deleted: boolean
 }
 
-export type PaymentInput = OMITER<Omit<Payment, "transactionId">>
+export type PaymentInput = OMITER<Omit<Payment, "transactionId" | "statusId" | "paymentOrderId">>
 
 export type PaymentStatus = REFERENCE_TYPE
 
