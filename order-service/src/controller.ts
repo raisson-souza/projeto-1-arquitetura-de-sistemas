@@ -11,12 +11,13 @@ type ControllerType = {
 export default abstract class Controller {
     static async Create({ req, res, next }: ControllerType): Promise<void> {
         try {
-            BodyChecker(req.body, ["clientId", "total", "products"])
+            BodyChecker(req.body, ["clientId", "total", "products", "payment"])
             const order = await Service.Create({
                 orderModel: {
                     clientId: req.body.clientId,
                     total: req.body.total,
                     products: req.body.products,
+                    payment: req.body.payment,
                 },
             })
             res.status(201).json(order)

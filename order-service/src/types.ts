@@ -14,7 +14,14 @@ export type Order = {
     createdAt: Date
 }
 
-export type OrderInput = Omit<OMITER<Order>, "status">
+export type OrderInput = {
+    payment: {
+        payments: {
+            total: number
+            paymentMethodId: number
+        }[]
+    }
+} & Omit<OMITER<Order>, "status">
 
 export type Product = {
     id: number

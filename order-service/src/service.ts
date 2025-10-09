@@ -1,5 +1,6 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
 import { Order, OrderInput, Product } from "./types"
+import { paymentService, productService, userService } from "./webhook"
 import Repository from "./repository"
 
 type CreateProps = {
@@ -28,7 +29,41 @@ export default abstract class Service {
         if (orderModel.products.length <= 0)
             throw new ClientException("Produtos de pedido inválidos.")
 
-        return await Repository.Create({ orderModel })
+        const clientResponse = await userService.get(orderModel.clientId)
+
+        if (clientResponse === null)
+            throw new ClientException("Cliente não encontrado.")
+
+        let total = 0
+
+        for (const product of orderModel.products) {
+            const productResponse = await productService.get(product.id)
+
+            if (productResponse === null)
+                throw new ClientException(`Produto ${ product.name } não existe.`)
+
+            if (productResponse.stock - product.quantity < 0)
+                throw new ClientException(`Produto ${ product.name } sem estoque suficiente.`)
+
+            product.name = productResponse.name
+            product.price = productResponse.price
+            total += product.price * product.quantity
+        }
+
+        const order = await Repository.Create({
+            orderModel: {
+                ...orderModel,
+                total: total,
+            }
+        })
+
+        const paymentResponse = await paymentService.create({
+            orderId: order.id,
+            total: order.total,
+            payments: orderModel.payment.payments,
+        })
+
+        return order
     }
 
     static async Get({ id }: GetProps): Promise<Order | null> {

@@ -14,7 +14,7 @@ type OMITER<T> = Omit<T, "id" | "createdAt" | "deleted">
 export type PaymentOrder = {
     id: number
     total: Decimal
-    orderId: number
+    orderId: string
     statusId: number
     payments: Payment[]
     createdAt: Date
