@@ -50,6 +50,12 @@ export default abstract class Service {
         if (product.deleted)
             throw new DeletedResourceException()
 
+        if (productModel.price < 0)
+            throw new ClientException("Preço inválido.")
+
+        if (productModel.stock < 0)
+            throw new ClientException("Estoque inválido.")
+
         return await Repository.Update({ productModel })
     }
 
