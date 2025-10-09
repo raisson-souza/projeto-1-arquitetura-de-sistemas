@@ -79,4 +79,14 @@ export default abstract class Controller {
             next(ex)
         }
     }
+
+    static async ListMethods({ res, next }: ControllerType): Promise<void> {
+        try {
+            const paymentMethods = await Service.ListMethods({})
+            res.json(paymentMethods)
+        }
+        catch (ex) {
+            next(ex)
+        }
+    }
 }

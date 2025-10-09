@@ -1,5 +1,5 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
-import { PaymentOrder, PaymentOrderInput } from "./types"
+import { PaymentMethod, PaymentOrder, PaymentOrderInput } from "./types"
 import Repository from "./repository"
 
 type CreateProps = {
@@ -67,5 +67,9 @@ export default abstract class Service {
 
     static async List({}: ListProps): Promise<PaymentOrder[]> {
         return await Repository.List({})
+    }
+
+    static async ListMethods({}: ListProps): Promise<PaymentMethod[]> {
+        return await Repository.ListMethods({})
     }
 }

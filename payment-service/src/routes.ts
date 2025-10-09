@@ -21,6 +21,8 @@ export default function BindExpress(app: Express) {
 
     apiRouter.get("/list", (req, res, next) => Controller.List({ req, res, next }))
 
+    apiRouter.get("/list_methods", (req, res, next) => Controller.ListMethods({ req, res, next }))
+
     app.use("/api/payments", apiRouter)
 
     app.listen(port, () => {

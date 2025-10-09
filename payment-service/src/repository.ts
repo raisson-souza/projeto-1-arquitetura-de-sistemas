@@ -1,4 +1,4 @@
-import { PaymentOrder, PaymentOrderInput } from "./types"
+import { PaymentMethod, PaymentOrder, PaymentOrderInput } from "./types"
 import prisma from "./prisma"
 
 type CreateProps = {
@@ -16,6 +16,8 @@ type UpdateProps = {
 type DeleteProps = GetProps
 
 type ListProps = {}
+
+type ListMethodsProps = {}
 
 export default abstract class Repository {
     static async Create({ paymentOrderModel }: CreateProps): Promise<PaymentOrder> {
@@ -57,5 +59,9 @@ export default abstract class Repository {
         return await prisma.paymentOrder.findMany({
             where: { deleted: false },
         })
+    }
+
+    static async ListMethods({}: ListMethodsProps): Promise<PaymentMethod[]> {
+        return await prisma.paymentMethod.findMany({})
     }
 }
