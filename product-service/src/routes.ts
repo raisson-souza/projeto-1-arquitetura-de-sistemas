@@ -21,6 +21,8 @@ export default function BindExpress(app: Express) {
 
     apiRouter.get("/list", (req, res, next) => Controller.List({ req, res, next }))
 
+    apiRouter.post("/update_stock", (req, res, next) => Controller.UpdateStock({ req, res, next }))
+
     app.use("/api/products", apiRouter)
 
     app.listen(port, () => {

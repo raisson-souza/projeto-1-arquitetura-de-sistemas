@@ -17,6 +17,10 @@ type DeleteProps = GetProps
 
 type ListProps = {}
 
+type UpdateStockProps = {
+    newProduct: Product
+}
+
 export default abstract class Repository {
     static async Create({ productModel }: CreateProps): Promise<Product> {
         return await prisma.product.create({
@@ -56,6 +60,13 @@ export default abstract class Repository {
     static async List({}: ListProps): Promise<Product[]> {
         return await prisma.product.findMany({
             where: { deleted: false },
+            orderBy: { id: "asc" },
+        })
+    }
+
+    static async UpdateStock({ newProduct }: UpdateStockProps): Promise<void> {
+        await this.Update({
+            productModel: newProduct,
         })
     }
 }

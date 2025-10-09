@@ -79,4 +79,18 @@ export default abstract class Controller {
             next(ex)
         }
     }
+
+    static async UpdateStock({ req, res, next }: ControllerType): Promise<void> {
+        try {
+            BodyChecker(req.body, ["alterQuantity", "id"])
+            await Service.UpdateStock({
+                alterQuantity: req.body.alterQuantity,
+                id: req.body.id,
+            })
+            res.send("Estoque atualizado com sucesso.")
+        }
+        catch (ex) {
+            next(ex)
+        }
+    }
 }
