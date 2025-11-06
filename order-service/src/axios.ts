@@ -1,28 +1,31 @@
-import axios from "axios"
 import { CustomException } from "./customException"
+import axios from "axios"
+import dotenv from 'dotenv'
 
-const notificationServicePort = process.env.NOTIFICATION_SERVICE_PORT || 8000
-const paymentServicePort = process.env.PAYMENT_SERVICE_PORT || 8002
-const productServicePort = process.env.PRODUCT_SERVICE_PORT || 8003
-const userServicePort = process.env.USER_SERVICE_PORT || 8004
+dotenv.config()
+
+const NOTIFICATION_SERVICE_URL = process.env.NOTIFICATION_SERVICE_URL || "http://localhost:8000/api"
+const PAYMENT_SERVICE_URL = process.env.PAYMENT_SERVICE_URL || "http://localhost:8000/api"
+const PRODUCT_SERVICE_URL = process.env.PRODUCT_SERVICE_URL || "http://localhost:8000/api"
+const USER_SERVICE_URL = process.env.USER_SERVICE_URL || "http://localhost:8000/api"
 
 const notificationsWebhook = axios.create({
-    baseURL: `http://localhost:${ notificationServicePort }/api/notifications`,
+    baseURL: NOTIFICATION_SERVICE_URL,
     headers: {"Content-Type": "application/json"},
 })
 
 const paymentsWebhook = axios.create({
-    baseURL: `http://localhost:${ paymentServicePort }/api/payments`,
+    baseURL: PAYMENT_SERVICE_URL,
     headers: {"Content-Type": "application/json"},
 })
 
 const productsWebhook = axios.create({
-    baseURL: `http://localhost:${ productServicePort }/api/products`,
+    baseURL: PRODUCT_SERVICE_URL,
     headers: {"Content-Type": "application/json"},
 })
 
 const usersWebhook = axios.create({
-    baseURL: `http://localhost:${ userServicePort }/api/users`,
+    baseURL: USER_SERVICE_URL,
     headers: {"Content-Type": "application/json"},
 })
 

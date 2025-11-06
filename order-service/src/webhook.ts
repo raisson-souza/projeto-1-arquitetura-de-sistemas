@@ -83,8 +83,7 @@ const userService = {
     //         .catch(ex => throwAxiosErrorResponse(ex))
     // },
     get: async (userId: number) => {
-        console.log(usersWebhook.defaults.baseURL)
-        return await usersWebhook.get(`?id=${ userId }`)
+        return await usersWebhook.get(`/?id=${ userId }`)
             .then(res => parseAxiosResponse(res))
             .catch(ex => throwAxiosErrorResponse(ex))
     },
