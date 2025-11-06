@@ -19,7 +19,9 @@ export const options = {
 };
 
 export default function () {
-  const url = "http://localhost:8001/api/orders";
+  const url = "http://order-service:8000/api/orders";
+  // const url = "http://localhost:8001/api/orders";
+  // const url = "https://qgp8l8rr-8001.brs.devtunnels.ms/api/orders";
   
   const payload = JSON.stringify({
     "clientId": 1,

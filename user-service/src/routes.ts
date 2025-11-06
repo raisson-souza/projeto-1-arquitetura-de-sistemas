@@ -3,7 +3,7 @@ import { Express } from 'express'
 import Controller from './controller'
 
 export default function BindExpress(app: Express) {
-    const port = process.env.PORT
+    const port = process.env.USER_SERVICE_PORT ?? 8004
 
     app.use(express.json())
 
