@@ -1,11 +1,12 @@
 services:
+  # === BANCO DE DADOS ===
   product-db:
     image: postgres:17
     container_name: product-db
     env_file: ".env"
     restart: unless-stopped
     ports:
-      - "${PRODUCT_DB_PORT}:5432"
+      - "${PRODUCT_DB_EXTERNAL_PORT}:5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
@@ -16,8 +17,8 @@ services:
       - "3000"
     volumes:
       - product-db-volume:/var/lib/postgresql/data
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   payment-db:
     image: postgres:17
@@ -25,7 +26,7 @@ services:
     env_file: ".env"
     restart: unless-stopped
     ports:
-      - "${PAYMENT_DB_PORT}:5432"
+      - "${PAYMENT_DB_EXTERNAL_PORT}:5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
@@ -36,8 +37,8 @@ services:
       - "3001"
     volumes:
       - payment-db-volume:/var/lib/postgresql/data
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   user-db:
     image: postgres:17
@@ -45,7 +46,7 @@ services:
     env_file: ".env"
     restart: unless-stopped
     ports:
-      - "${USER_DB_PORT}:5432"
+      - "${USER_DB_EXTERNAL_PORT}:5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
@@ -56,8 +57,8 @@ services:
       - "3002"
     volumes:
       - user-db-volume:/var/lib/postgresql/data
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   order-db:
     image: mongo:8
@@ -68,12 +69,13 @@ services:
       - "5432"
       - "3003"
     ports:
-      - "${ORDER_DB_PORT}:27017"
+      - "${ORDER_DB_EXTERNAL_PORT}:27017"
     volumes:
       - order-db-volume:/data/db
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
+  # === SERVICES ===
   notification-service:
     build:
       context: ./notification-service
@@ -82,14 +84,14 @@ services:
     container_name: notification-service
     env_file: ".env"
     ports:
-      - "${NOTIFICATION_SERVICE_PORT}:8000"
+      - "${NOTIFICATION_SERVICE_EXTERNAL_PORT}:8000"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${NOTIFICATION_SERVICE_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${NOTIFICATION_SERVICE_EXTERNAL_PORT}/" ]
       interval: 5s
       timeout: 3s
       retries: 3
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   order-service:
     build:
@@ -101,14 +103,14 @@ services:
     container_name: order-service
     env_file: ".env"
     ports:
-      - "${ORDER_SERVICE_PORT}:8000"
+      - "${ORDER_SERVICE_EXTERNAL_PORT}:8000"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${ORDER_SERVICE_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${ORDER_SERVICE_EXTERNAL_PORT}/" ]
       interval: 5s
       timeout: 3s
       retries: 3
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   payment-service:
     build:
@@ -121,14 +123,14 @@ services:
     container_name: payment-service
     env_file: ".env"
     ports:
-      - "${PAYMENT_SERVICE_PORT}:8000"
+      - "${PAYMENT_SERVICE_EXTERNAL_PORT}:8000"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${PAYMENT_SERVICE_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${PAYMENT_SERVICE_EXTERNAL_PORT}/" ]
       interval: 5s
       timeout: 3s
       retries: 3
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   product-service:
     build:
@@ -141,14 +143,14 @@ services:
     container_name: product-service
     env_file: ".env"
     ports:
-      - "${PRODUCT_SERVICE_PORT}:8000"
+      - "${PRODUCT_SERVICE_EXTERNAL_PORT}:8000"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${PRODUCT_SERVICE_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${PRODUCT_SERVICE_EXTERNAL_PORT}/" ]
       interval: 5s
       timeout: 3s
       retries: 3
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   user-service:
     build:
@@ -161,36 +163,37 @@ services:
     container_name: user-service
     env_file: ".env"
     ports:
-      - "${USER_SERVICE_PORT}:8000"
+      - "${USER_SERVICE_EXTERNAL_PORT}:8000"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${USER_SERVICE_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${USER_SERVICE_EXTERNAL_PORT}/" ]
       interval: 5s
       timeout: 3s
       retries: 3
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
+  # === TESTES DE CARGA ===
   influxdb:
     image: influxdb:1.8
     container_name: influxdb
     restart: always
     ports:
-      - "9002:8086"
+      - "${INFLUX_DB_EXTERNAL_PORT}:8086"
     environment:
       - INFLUXDB_DB=k6
       - INFLUXDB_HTTP_AUTH_ENABLED=false
     volumes:
       - influxdb_data:/var/lib/influxdb
       - ./influxdb-init/init-influxdb.sh:/docker-entrypoint-initdb.d/init-influxdb.sh
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   grafana:
     image: grafana/grafana:10.2.3
     container_name: grafana
     restart: always
     ports:
-      - "9001:3000"
+      - "${GRAFANA_EXTERNAL_PORT}:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -198,8 +201,8 @@ services:
       - influxdb
     volumes:
       - grafana_data:/var/lib/grafana
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
   k6:
     image: grafana/k6:latest
@@ -209,8 +212,8 @@ services:
     volumes:
       - ./k6-scripts:/scripts
     entrypoint: ["k6"]
-    networks:
-      - project-network
+    # networks:
+    #   - project-network
 
 volumes:
   product-db-volume:
@@ -221,6 +224,6 @@ volumes:
   grafana_data:
     driver: local
 
-networks:
-  project-network:
-    driver: bridge
+# networks:
+#   project-network:
+#     driver: bridge

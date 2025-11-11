@@ -1,0 +1,6 @@
+.git/
+LOCALS/
+grafana-dashboard.json
+README.md
+*.env
+*.env.example
