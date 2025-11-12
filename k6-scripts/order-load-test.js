@@ -3,7 +3,7 @@ import { check, sleep } from "k6";
 
 export const options = {
   stages: [
-    { duration: "15s", target: 5 },
+    { duration: "10s", target: 5 },
     // { duration: "30s", target: 10 },
     // { duration: "1m", target: 50 },
     // { duration: "1m", target: 100 },
@@ -20,8 +20,7 @@ export const options = {
 };
 
 export default function () {
-  // const url = "http://order-service:8000/api/orders";
-  const url = "http://order-service:8001/api/orders";
+  const url = "http://order-service:8000/api/orders";
   // const url = "http://localhost:8001/api/orders";
   // const url = "http://0.0.0.0:8001/api/orders";
   // const url = "http://127.0.0.1:8001/api/orders";
