@@ -4,6 +4,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 COPY . .
 EXPOSE 8002
+RUN apk --update add curl
 RUN npm i
 RUN npx prisma generate
 ENTRYPOINT [ "./entrypoint.sh" ]

@@ -84,12 +84,12 @@ services:
     container_name: notification-service
     env_file: ".env"
     ports:
-      - "${NOTIFICATION_SERVICE_EXTERNAL_PORT}:8000"
+      - "${NOTIFICATION_SERVICE_EXTERNAL_PORT}:${NOTIFICATION_SERVICE_PORT}"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${NOTIFICATION_SERVICE_EXTERNAL_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${NOTIFICATION_SERVICE_PORT}" ]
       interval: 5s
       timeout: 3s
-      retries: 3
+      start_period: 5s
     # networks:
     #   - project-network
 
@@ -103,12 +103,12 @@ services:
     container_name: order-service
     env_file: ".env"
     ports:
-      - "${ORDER_SERVICE_EXTERNAL_PORT}:8000"
+      - "${ORDER_SERVICE_EXTERNAL_PORT}:${ORDER_SERVICE_PORT}"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${ORDER_SERVICE_EXTERNAL_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${ORDER_SERVICE_PORT}/" ]
       interval: 5s
       timeout: 3s
-      retries: 3
+      start_period: 5s
     # networks:
     #   - project-network
 
@@ -123,12 +123,12 @@ services:
     container_name: payment-service
     env_file: ".env"
     ports:
-      - "${PAYMENT_SERVICE_EXTERNAL_PORT}:8000"
+      - "${PAYMENT_SERVICE_EXTERNAL_PORT}:${PAYMENT_SERVICE_PORT}"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${PAYMENT_SERVICE_EXTERNAL_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${PAYMENT_SERVICE_PORT}/" ]
       interval: 5s
       timeout: 3s
-      retries: 3
+      start_period: 5s
     # networks:
     #   - project-network
 
@@ -143,12 +143,12 @@ services:
     container_name: product-service
     env_file: ".env"
     ports:
-      - "${PRODUCT_SERVICE_EXTERNAL_PORT}:8000"
+      - "${PRODUCT_SERVICE_EXTERNAL_PORT}:${PRODUCT_SERVICE_PORT}"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${PRODUCT_SERVICE_EXTERNAL_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${PRODUCT_SERVICE_PORT}/" ]
       interval: 5s
       timeout: 3s
-      retries: 3
+      start_period: 5s
     # networks:
     #   - project-network
 
@@ -163,12 +163,12 @@ services:
     container_name: user-service
     env_file: ".env"
     ports:
-      - "${USER_SERVICE_EXTERNAL_PORT}:8000"
+      - "${USER_SERVICE_EXTERNAL_PORT}:${USER_SERVICE_PORT}"
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:${USER_SERVICE_EXTERNAL_PORT}/" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:${USER_SERVICE_PORT}/" ]
       interval: 5s
       timeout: 3s
-      retries: 3
+      start_period: 5s
     # networks:
     #   - project-network
 
