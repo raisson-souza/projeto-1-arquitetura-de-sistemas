@@ -54,7 +54,7 @@ export default function () {
   const res = http.post(url, payload, params);
 
   check(res, {
-    "status 200": (r) => r.status === 200,
+    "status 201": (r) => r.status === 201,
   });
 
   sleep(1);

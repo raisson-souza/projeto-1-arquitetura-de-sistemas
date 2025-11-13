@@ -184,13 +184,16 @@ services:
 
   k6:
     image: grafana/k6:latest
-    container_name: k6_runner
+    container_name: k6
+    volumes:
+      - ./k6-scripts:/scripts
+    environment:
+    - K6_OUT=influxdb=influxdb:8086/k6-orders
+    entrypoint: ["tail", "-f", "/dev/null"]
     depends_on:
       - influxdb
       - order-service
-    volumes:
-      - ./k6-scripts:/scripts
-    entrypoint: ["k6"]
+    # COMMAND: k6 run --out influxdb=http://influxdb:8086/k6-orders /scripts/order-load-test.js
 
 volumes:
   product-db-volume:
