@@ -4,14 +4,8 @@ import { check, sleep } from "k6";
 export const options = {
   stages: [
     { duration: "10s", target: 5 },
-    // { duration: "30s", target: 10 },
-    // { duration: "1m", target: 50 },
-    // { duration: "1m", target: 100 },
-    // { duration: "1m", target: 200 },
-    // { duration: "1m", target: 500 },
-    // { duration: "1m", target: 800 },
-    // { duration: "1m", target: 1000 },
-    // { duration: "30s", target: 0 },
+    { duration: "30s", target: 10 },
+    { duration: "1m", target: 20 },
   ],
   thresholds: {
     http_req_failed: ["rate<0.01"],
@@ -21,10 +15,7 @@ export const options = {
 
 export default function () {
   const url = "http://order-service:8000/api/orders";
-  // const url = "http://localhost:8001/api/orders";
-  // const url = "http://0.0.0.0:8001/api/orders";
-  // const url = "http://127.0.0.1:8001/api/orders";
-  
+
   const payload = JSON.stringify({
     "clientId": 1,
     "total": 100,

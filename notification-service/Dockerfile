@@ -1,8 +1,8 @@
 FROM node:24-alpine
+RUN apk add --no-cache curl
 WORKDIR /app
 COPY package*.json ./
+RUN npm i
 COPY . .
 EXPOSE 8000
-RUN apk --update add curl
-RUN npm i
 CMD ["npm", "start"]

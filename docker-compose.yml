@@ -66,6 +66,12 @@ services:
       - "${ORDER_DB_EXTERNAL_PORT}:27017"
     volumes:
       - order-db-volume:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--quiet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   # === SERVICES ===
   notification-service:
@@ -88,7 +94,8 @@ services:
       context: ./order-service
       dockerfile: Dockerfile
     depends_on:
-      - order-db
+      order-db:
+        condition: service_healthy
     restart: unless-stopped
     container_name: order-service
     env_file: ".env"
@@ -158,7 +165,7 @@ services:
   influxdb:
     image: influxdb:1.8
     container_name: influxdb
-    restart: always
+    restart: unless-stopped
     ports:
       - "${INFLUX_DB_EXTERNAL_PORT}:8086"
     environment:
@@ -167,20 +174,33 @@ services:
     volumes:
       - influxdb_data:/var/lib/influxdb
       - ./influxdb-init/init-influxdb.sh:/docker-entrypoint-initdb.d/init-influxdb.sh
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   grafana:
     image: grafana/grafana:10.2.3
     container_name: grafana
-    restart: always
+    restart: unless-stopped
     ports:
       - "${GRAFANA_EXTERNAL_PORT}:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
-      - influxdb
+      influxdb:
+        condition: service_healthy
     volumes:
       - grafana_data:/var/lib/grafana
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   k6:
     image: grafana/k6:latest
@@ -191,9 +211,8 @@ services:
     - K6_OUT=influxdb=influxdb:8086/k6-orders
     entrypoint: ["tail", "-f", "/dev/null"]
     depends_on:
-      - influxdb
-      - order-service
-    # COMMAND: k6 run --out influxdb=http://influxdb:8086/k6-orders /scripts/order-load-test.js
+      grafana:
+        condition: service_healthy
 
 volumes:
   product-db-volume:

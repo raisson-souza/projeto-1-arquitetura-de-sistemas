@@ -8,7 +8,8 @@ until influx -execute 'SHOW DATABASES'; do
   sleep 2
 done
 
-# influx -execute 'CREATE DATABASE "k6-payments"'
+influx -execute 'CREATE DATABASE "k6-users"'
+influx -execute 'CREATE DATABASE "k6-payments"'
 influx -execute 'CREATE DATABASE "k6-orders"'
 
 echo "Bancos criados com sucesso!"
