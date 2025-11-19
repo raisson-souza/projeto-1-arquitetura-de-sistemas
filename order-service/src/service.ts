@@ -1,6 +1,7 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
 import { Order, OrderInput, Product } from "./types"
 import { paymentService, productService, userService } from "./webhook"
+import { Queue } from "."
 import Repository from "./repository"
 
 type CreateProps = {
@@ -57,11 +58,13 @@ export default abstract class Service {
             }
         })
 
-        const paymentResponse = await paymentService.create({
+        await paymentService.create({
             orderId: order.id,
             total: order.total,
             payments: orderModel.payment.payments,
         })
+
+        Queue.SendNewOrderCreation(new Date().getTime())
 
         return order
     }

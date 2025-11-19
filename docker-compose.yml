@@ -88,6 +88,9 @@ services:
       interval: 5s
       timeout: 3s
       start_period: 5s
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   order-service:
     build:
@@ -95,6 +98,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       order-db:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     restart: unless-stopped
     container_name: order-service
@@ -214,6 +219,36 @@ services:
       grafana:
         condition: service_healthy
 
+  # === FILA RABBITMQ ===
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - "${RABBITMQ_MQTP_EXTERNAL_PORT}:5672"
+      - "${RABBITMQ_UI_EXTERNAL_PORT}:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  rabbitmq-queue-orchestrator:
+    build:
+      context: ./rabbitmq-queue-orchestrator
+      dockerfile: Dockerfile
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    container_name: rabbitmq-queue-orchestrator
+    env_file: ".env"
+
 volumes:
   product-db-volume:
   payment-db-volume:
@@ -221,4 +256,5 @@ volumes:
   order-db-volume:
   influxdb_data:
   grafana_data:
+  rabbitmq_data:
     driver: local
