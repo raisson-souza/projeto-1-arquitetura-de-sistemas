@@ -11,18 +11,19 @@
   "devDependencies": {
     "@types/amqplib": "^0.10.8",
     "@types/express": "^5.0.3",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.10.1",
     "globals": "^16.3.0",
     "prisma": "^6.15.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.20.5",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "amqplib": "^0.10.9",
     "@prisma/client": "^6.16.3",
+    "amqplib": "^0.10.9",
     "axios": "^1.12.2",
     "express": "^5.1.0",
-    "mongoose": "^8.19.1",
-    "ts-node": "^10.9.2"
+    "kafkajs": "^2.2.4",
+    "mongoose": "^8.19.1"
   }
 }

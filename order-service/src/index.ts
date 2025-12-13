@@ -3,6 +3,7 @@ import BindExpress from './routes'
 import dotenv from 'dotenv'
 import express from 'express'
 import RabbitMQ from './rabbitmq'
+import KafkaJS from './kafka'
 
 dotenv.config()
 connectMongoose()
@@ -10,5 +11,7 @@ connectMongoose()
 const app = express()
 BindExpress(app)
 
-const Queue = new RabbitMQ("microservices_queue")
-export { Queue }
+const QueueClient = new RabbitMQ("microservices_queue")
+const KafkaClient = new KafkaJS()
+
+export { QueueClient, KafkaClient }

@@ -1,8 +1,8 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
 import { Order, OrderInput, Product } from "./types"
-import { paymentService, productService, userService } from "./webhook"
-import { Queue } from "."
+import { productService, userService } from "./webhook"
 import Repository from "./repository"
+import { KafkaClient, QueueClient } from "."
 
 type CreateProps = {
     orderModel: OrderInput
@@ -58,13 +58,13 @@ export default abstract class Service {
             }
         })
 
-        await paymentService.create({
+        QueueClient.SendNewOrderCreation(new Date().getTime())
+
+        KafkaClient.produceOrderCreation({
             orderId: order.id,
             total: order.total,
             payments: orderModel.payment.payments,
         })
-
-        Queue.SendNewOrderCreation(new Date().getTime())
 
         return order
     }

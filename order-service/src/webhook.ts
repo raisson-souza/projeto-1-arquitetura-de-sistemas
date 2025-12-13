@@ -9,18 +9,18 @@ const notificationService = {
 }
 
 const paymentService = {
-    create: async (data: {
-        orderId: string
-        total: number
-        payments: {
-            total: number
-            paymentMethodId: number
-        }[]
-    }) => {
-        return await paymentsWebhook.post("/", data)
-            .then(res => parseAxiosResponse(res))
-            .catch(ex => throwAxiosErrorResponse(ex))
-    },
+    // create: async (data: {
+    //     orderId: string
+    //     total: number
+    //     payments: {
+    //         total: number
+    //         paymentMethodId: number
+    //     }[]
+    // }) => {
+    //     return await paymentsWebhook.post("/", data)
+    //         .then(res => parseAxiosResponse(res))
+    //         .catch(ex => throwAxiosErrorResponse(ex))
+    // },
     // get: async (data: any) => {
     //     return await paymentsWebhook.get("/")
     //         .then(res => parseAxiosResponse(res))
@@ -31,11 +31,11 @@ const paymentService = {
     //         .then(res => parseAxiosResponse(res))
     //         .catch(ex => throwAxiosErrorResponse(ex))
     // },
-    delete: async (data: any) => {
-        return await paymentsWebhook.delete("/")
-            .then(res => parseAxiosResponse(res))
-            .catch(ex => throwAxiosErrorResponse(ex))
-    },
+    // delete: async (data: any) => {
+    //     return await paymentsWebhook.delete("/")
+    //         .then(res => parseAxiosResponse(res))
+    //         .catch(ex => throwAxiosErrorResponse(ex))
+    // },
     // list: async (data: any) => {
     //    return await paymentsWebhook.get("/")
     //         .then(res => parseAxiosResponse(res))
