@@ -40,7 +40,7 @@ export default abstract class Controller {
 
     static async Update({ req, res, next }: ControllerType): Promise<void> {
         try {
-        BodyChecker(req.body, ["orderId", "statusId", "total", "createdAt", "deleted", "id", "payments"])
+            BodyChecker(req.body, ["orderId", "statusId", "total", "createdAt", "deleted", "id", "payments"])
             const paymentOrder = await Service.Update({
                 paymentOrderModel: {
                     orderId: req.body.orderId,
@@ -85,6 +85,20 @@ export default abstract class Controller {
         try {
             const paymentMethods = await Service.ListMethods({})
             res.json(paymentMethods)
+        }
+        catch (ex) {
+            next(ex)
+        }
+    }
+
+    static async Process({ req, res, next }: ControllerType): Promise<void> {
+        try {
+            BodyChecker(req.body, ["paymentOrderId", "statusId"])
+            await Service.Process({
+                paymentOrderId: Number.parseInt(req.body["paymentOrderId"] as string),
+                statusId: Number.parseInt(req.body["statusId"] as string),
+            })
+            res.send("Pagamento atualizado com sucesso.")
         }
         catch (ex) {
             next(ex)

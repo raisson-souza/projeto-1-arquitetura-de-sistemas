@@ -19,6 +19,11 @@ type ListProps = {}
 
 type ListMethodsProps = {}
 
+type ProcessProps = {
+    paymentOrderId: number
+    statusId: number
+}
+
 export default abstract class Repository {
     static async Create({ paymentOrderModel }: CreateProps): Promise<PaymentOrder> {
         let paymentOrder: PaymentOrder | null = null
@@ -125,5 +130,12 @@ export default abstract class Repository {
 
     static async ListMethods({}: ListMethodsProps): Promise<PaymentMethod[]> {
         return await prisma.paymentMethod.findMany({})
+    }
+
+    static async Process({ paymentOrderId, statusId }: ProcessProps): Promise<void> {
+        await prisma.paymentOrder.update({
+            data: { statusId },
+            where: { id: paymentOrderId },
+        })
     }
 }

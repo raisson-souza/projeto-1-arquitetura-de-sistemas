@@ -11,6 +11,10 @@ export default function BindExpress(app: Express) {
 
     const apiRouter = express.Router()
 
+    apiRouter.get("/list_methods", (req, res, next) => Controller.ListMethods({ req, res, next }))
+
+    apiRouter.post("/process", (req, res, next) => Controller.Process({ req, res, next }))
+
     apiRouter.post("/", (req, res, next) => Controller.Create({ req, res, next }))
 
     apiRouter.get("/", (req, res, next) => Controller.Get({ req, res, next }))
@@ -20,8 +24,6 @@ export default function BindExpress(app: Express) {
     apiRouter.delete("/", (req, res, next) => Controller.Delete({ req, res, next }))
 
     apiRouter.get("/list", (req, res, next) => Controller.List({ req, res, next }))
-
-    apiRouter.get("/list_methods", (req, res, next) => Controller.ListMethods({ req, res, next }))
 
     app.use("/api/payments", apiRouter)
 

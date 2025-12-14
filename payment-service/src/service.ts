@@ -19,7 +19,10 @@ type DeleteProps = GetProps
 
 type ListProps = {}
 
-type ApprovePaymentOrderProps = GetProps
+type ProcessProps = {
+    paymentOrderId: number
+    statusId: number
+}
 
 export default abstract class Service {
     static async Create({ paymentOrderModel }: CreateProps): Promise<PaymentOrder> {
@@ -84,15 +87,17 @@ export default abstract class Service {
         return await Repository.ListMethods({})
     }
 
-    static async ApprovePaymentOrder({ id }: ApprovePaymentOrderProps): Promise<void> {
-        const paymentOrder = await this.Get({ id: id })
-        const now = new Date().getTime().toString()
-        const approved = Number.parseInt(now[now.length - 1]) > 5
-        await Repository.Update({
-            paymentOrderModel: {
-                ...paymentOrder,
-                statusId: approved ? 2 : 3,
-            }
+    static async Process({ paymentOrderId, statusId }: ProcessProps): Promise<void> {
+        await RedisCacheClient.del(`payment:${paymentOrderId}`)
+
+        const paymentOrder = await Repository.Get({ id: paymentOrderId })
+
+        if (paymentOrder === null)
+            throw new DeletedResourceException()
+
+        await Repository.Process({
+            paymentOrderId: paymentOrderId,
+            statusId: statusId,
         })
     }
 }
