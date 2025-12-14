@@ -11,10 +11,11 @@ type ControllerType = {
 export default abstract class Controller {
     static async Create({ req, res, next }: ControllerType): Promise<void> {
         try {
-            BodyChecker(req.body, ["deviceId"])
+            BodyChecker(req.body, ["deviceId", "eventType"])
             await Service.Create({
                 notificationModel: {
                     deviceId: req.body.deviceId,
+                    eventType: req.body.eventType,
                 },
             })
             res.send("Notificação enviada com sucesso.")

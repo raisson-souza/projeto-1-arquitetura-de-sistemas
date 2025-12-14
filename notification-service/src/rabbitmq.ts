@@ -10,6 +10,7 @@ type MessageType = {
     eventName: string
     data: {
         deviceId: number
+        eventType: string
     }
 }
 
@@ -50,6 +51,11 @@ export default class RabbitMQ {
     }
 
     private async ReceiveNewOrderCreated(msg: MessageType) {
-        await Service.Create({ notificationModel: { deviceId: msg.data.deviceId }})
+        await Service.Create({
+            notificationModel: {
+                deviceId: msg.data.deviceId,
+                eventType: msg.data.eventType,
+            },
+        })
     }
 }

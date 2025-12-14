@@ -9,6 +9,7 @@ type MessageType = {
     eventName: string
     data: {
         deviceId: number
+        eventType: string
     }
 }
 
@@ -45,11 +46,12 @@ export default class RabbitMQ {
         }
     }
 
-    async SendNewOrderCreation(deviceId: number) {
+    async SendNewOrderCreation(deviceId: number, eventType: string) {
         const data: MessageType = {
             eventName: "newOrderCreated",
             data: {
                 deviceId,
+                eventType,
             },
         }
         this.channel.sendToQueue(this.queueName, Buffer.from(JSON.stringify(data)))

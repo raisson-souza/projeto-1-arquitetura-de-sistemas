@@ -58,7 +58,7 @@ export default abstract class Service {
             }
         })
 
-        QueueClient.SendNewOrderCreation(new Date().getTime())
+        QueueClient.SendNewOrderCreation(new Date().getTime(), "orderCreation")
 
         KafkaClient.produceOrderCreation({
             orderId: order.id,

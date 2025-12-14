@@ -52,24 +52,24 @@ export default class KafkaService {
         }
     }
 
-    private async produce(topic: string, key: string, data: any) {
-        if (!this.isConnected) await this.connect()
+    // private async produce(topic: string, key: string, data: any) {
+    //     if (!this.isConnected) await this.connect()
 
-        try {
-            await this.producer.send({
-                topic: topic,
-                messages: [
-                    {
-                        key: key,
-                        value: JSON.stringify(data)
-                    },
-                ],
-            })
-        } catch (error) {
-            console.error(`❌ Erro ao enviar mensagem para o tópico ${topic}:`, error)
-            throw error
-        }
-    }
+    //     try {
+    //         await this.producer.send({
+    //             topic: topic,
+    //             messages: [
+    //                 {
+    //                     key: key,
+    //                     value: JSON.stringify(data)
+    //                 },
+    //             ],
+    //         })
+    //     } catch (error) {
+    //         console.error(`❌ Erro ao enviar mensagem para o tópico ${topic}:`, error)
+    //         throw error
+    //     }
+    // }
 
     async productePaymentCreation(data: CreateOrderMessage) {
         // await this.produce("payments", data.orderId, data)

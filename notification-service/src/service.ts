@@ -5,8 +5,8 @@ type CreateProps = {
 }
 
 export default abstract class Service {
-    static async Create({ notificationModel: { deviceId }}: CreateProps): Promise<void> {
-        console.log("deviceId", deviceId)
+    static async Create({ notificationModel: { deviceId, eventType }}: CreateProps): Promise<void> {
+        console.log(`[${ eventType }] ${ deviceId }`)
         return new Promise(resolve => setTimeout(resolve, 1000))
     }
 }
