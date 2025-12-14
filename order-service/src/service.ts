@@ -1,8 +1,9 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
+import { KafkaClient, QueueClient } from "."
 import { Order, OrderInput, Product } from "./types"
 import { productService, userService } from "./webhook"
+import { RedisCacheClient } from "."
 import Repository from "./repository"
-import { KafkaClient, QueueClient } from "."
 
 type CreateProps = {
     orderModel: OrderInput
@@ -70,6 +71,11 @@ export default abstract class Service {
     }
 
     static async Get({ id }: GetProps): Promise<Order | null> {
+        const redisKey = `order:${id}`
+
+        if (await RedisCacheClient.get(redisKey))
+            return await RedisCacheClient.get<Order>(redisKey)
+
         const order = await Repository.Get({ id })
 
         if (order === null)
@@ -77,6 +83,8 @@ export default abstract class Service {
 
         if (order.deleted)
             throw new DeletedResourceException()
+
+        await RedisCacheClient.set(redisKey, order)
 
         return order
     }
@@ -98,6 +106,8 @@ export default abstract class Service {
         if (order.deleted)
             throw new DeletedResourceException()
 
+        await RedisCacheClient.del(`order:${orderModel.id}`)
+
         return await Repository.Update({ orderModel })
     }
 
@@ -109,6 +119,8 @@ export default abstract class Service {
 
         if (order.deleted)
             throw new DeletedResourceException()
+
+        await RedisCacheClient.del(`order:${id}`)
 
         await Repository.Delete({ id })
     }

@@ -49,6 +49,11 @@ Utilizado para comunicação entre os servços de pagamento e pedidos.
 
 Realiza um teste de carga geral com base no caminho feliz de solicitação de compra.
 
+## Cache
+
+Foi utilizado o Redis para o cacheamento de requisições GET dos serviços de pedidos, pagamentos, produtos e usuários.  
+Esse mesmo cache é removido após uma hora ou quando o mesmo registro é modificado ou deletado.
+
 # Comandos
 
 ### Prisma Relacionados
@@ -73,4 +78,4 @@ K6 (executar internamente no container)
 
 ### Validação Local dos Serviços
 
-`docker compose up --build product-db payment-db user-db order-db rabbitmq rabbitmq-queue-orchestrator zookeeper kafka init-kafka kafka-ui`
+`docker compose up --build product-db payment-db user-db order-db rabbitmq rabbitmq-queue-orchestrator zookeeper kafka init-kafka kafka-ui redis kong`

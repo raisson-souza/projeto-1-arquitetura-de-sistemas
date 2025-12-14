@@ -1,8 +1,13 @@
-import BindExpress from './routes';
-import express from 'express';
-import dotenv from 'dotenv';
+import BindExpress from './routes'
+import dotenv from 'dotenv'
+import express from 'express'
+import RedisCache from './redis'
 
-dotenv.config();
+dotenv.config()
+
+const RedisCacheClient = new RedisCache()
 
 const app = express()
 BindExpress(app)
+
+export { RedisCacheClient }

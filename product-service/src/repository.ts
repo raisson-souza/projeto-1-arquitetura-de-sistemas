@@ -1,3 +1,4 @@
+import { ClientException } from "./customException"
 import { Product, ProductInput } from "./types"
 import prisma from "./prisma"
 
@@ -23,6 +24,14 @@ type UpdateStockProps = {
 
 export default abstract class Repository {
     static async Create({ productModel }: CreateProps): Promise<Product> {
+        await prisma.product.findFirst({
+            where: { name: productModel.name, deleted: false },
+        })
+            .then(result => {
+                if (result !== null)
+                    throw new ClientException("Produto já existente.")
+            })
+
         return await prisma.product.create({
             data: {
                 name: productModel.name,

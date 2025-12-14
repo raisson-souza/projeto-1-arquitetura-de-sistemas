@@ -1,0 +1,34 @@
+_format_version: "3.0"
+
+services:
+  # --- Product Service ---
+  - name: product-service
+    url: http://product-service:8000/api
+    routes:
+      - name: product-routes
+        paths: ["/products"]
+        strip_path: false
+
+  # --- Order Service ---
+  - name: order-service
+    url: http://order-service:8000/api
+    routes:
+      - name: order-routes
+        paths: ["/orders"]
+        strip_path: false
+
+  # --- Payment Service ---
+  - name: payment-service
+    url: http://payment-service:8000/api
+    routes:
+      - name: payment-routes
+        paths: ["/payments"]
+        strip_path: false
+
+  # --- User Service ---
+  - name: user-service
+    url: http://user-service:8000/api
+    routes:
+      - name: user-routes
+        paths: ["/users"]
+        strip_path: false

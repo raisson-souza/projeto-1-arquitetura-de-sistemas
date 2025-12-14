@@ -306,6 +306,49 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       DYNAMIC_CONFIG_ENABLED: 'true'
 
+  # =============== CACHE ===============
+  redis:
+    image: redis:7.2
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --maxmemory 200mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # =============== GATEWAY ===============
+  kong:
+    image: kong:3.4
+    container_name: kong
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - product-service
+      - payment-service
+      - order-service
+      - user-service
+    volumes:
+      - ./kong/kong.yml:/usr/local/kong/declarative/kong.yml
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_NGINX_HTTP_LUA_SHARED_DICT: "custom_cache 128m"
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_STREAM_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_STREAM_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_PROXY_LISTEN: 0.0.0.0:8000
+    ports:
+      - "${KONG_PROXY_PORT}:8000"
+      - "${KONG_ADMIN_PORT}:8001"
+
 volumes:
   product-db-volume:
   payment-db-volume:
@@ -314,4 +357,5 @@ volumes:
   influxdb_data:
   grafana_data:
   rabbitmq_data:
+  redis_data:
     driver: local

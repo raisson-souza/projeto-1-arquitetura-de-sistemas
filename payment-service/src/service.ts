@@ -1,5 +1,6 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
 import { PaymentMethod, PaymentOrder, PaymentOrderInput } from "./types"
+import { RedisCacheClient } from "."
 import Repository from "./repository"
 
 type CreateProps = {
@@ -29,6 +30,11 @@ export default abstract class Service {
     }
 
     static async Get({ id }: GetProps): Promise<PaymentOrder | null> {
+        const redisKey = `payment:${id}`
+
+        if (await RedisCacheClient.get(redisKey))
+            return await RedisCacheClient.get<PaymentOrder>(redisKey)
+
         const paymentOrder = await Repository.Get({ id })
 
         if (paymentOrder === null)
@@ -36,6 +42,8 @@ export default abstract class Service {
 
         if (paymentOrder.deleted)
             throw new DeletedResourceException()
+
+        await RedisCacheClient.set(redisKey, paymentOrder)
 
         return paymentOrder
     }
@@ -49,6 +57,8 @@ export default abstract class Service {
         if (paymentOrder.deleted)
             throw new DeletedResourceException()
 
+        await RedisCacheClient.del(`payment:${paymentOrderModel.id}`)
+
         return await Repository.Update({ paymentOrderModel })
     }
 
@@ -60,6 +70,8 @@ export default abstract class Service {
 
         if (paymentOrder.deleted)
             throw new DeletedResourceException()
+
+        await RedisCacheClient.del(`payment:${id}`)
 
         await Repository.Delete({ id })
     }

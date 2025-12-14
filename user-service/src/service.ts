@@ -1,6 +1,7 @@
-import { ClientException, CustomException, NotFoundException } from "./customException";
-import { User, UserInput } from "./types";
-import Repository from "./repository";
+import { ClientException, CustomException, NotFoundException } from "./customException"
+import { RedisCacheClient } from "."
+import { User, UserInput } from "./types"
+import Repository from "./repository"
 
 type CreateProps = {
     userModel: UserInput
@@ -30,10 +31,17 @@ export default abstract class Service {
     }
 
     static async Get({ id }: GetProps): Promise<User | null> {
+        const redisKey = `user:${id}`
+
+        if (await RedisCacheClient.get(redisKey))
+            return await RedisCacheClient.get<User>(redisKey)
+
         const user = await Repository.Get({ id })
 
         if (user === null)
             throw new NotFoundException()
+
+        await RedisCacheClient.set(redisKey, user)
 
         return user
     }
@@ -50,6 +58,8 @@ export default abstract class Service {
         if (userModel.email.trim() === "" || userModel.name.trim() === "")
             throw new ClientException("Informações do usuário inválidas.")
 
+        await RedisCacheClient.del(`user:${userModel.id}`)
+
         return await Repository.Update({ userModel })
     }
 
@@ -58,6 +68,8 @@ export default abstract class Service {
 
         if (user === null)
             throw new NotFoundException()
+
+        await RedisCacheClient.del(`user:${id}`)
 
         await Repository.Delete({ id })
     }

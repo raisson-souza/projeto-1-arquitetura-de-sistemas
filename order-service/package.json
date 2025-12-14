@@ -23,6 +23,7 @@
     "amqplib": "^0.10.9",
     "axios": "^1.12.2",
     "express": "^5.1.0",
+    "ioredis": "^5.8.2",
     "kafkajs": "^2.2.4",
     "mongoose": "^8.19.1"
   }

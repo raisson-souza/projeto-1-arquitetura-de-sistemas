@@ -1,5 +1,6 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
 import { Product, ProductInput } from "./types"
+import { RedisCacheClient } from "."
 import Repository from "./repository"
 
 type CreateProps = {
@@ -34,6 +35,11 @@ export default abstract class Service {
     }
 
     static async Get({ id }: GetProps): Promise<Product | null> {
+        const redisKey = `product:${id}`
+
+        if (await RedisCacheClient.get(redisKey))
+            return await RedisCacheClient.get<Product>(redisKey)
+
         const product = await Repository.Get({ id })
 
         if (product === null)
@@ -41,6 +47,8 @@ export default abstract class Service {
 
         if (product.deleted)
             throw new DeletedResourceException()
+
+        await RedisCacheClient.set(redisKey, product)
 
         return product
     }
@@ -60,6 +68,8 @@ export default abstract class Service {
         if (productModel.stock < 0)
             throw new ClientException("Estoque inválido.")
 
+        await RedisCacheClient.del(`product:${productModel.id}`)
+
         return await Repository.Update({ productModel })
     }
 
@@ -72,6 +82,7 @@ export default abstract class Service {
         if (product.deleted)
             throw new DeletedResourceException()
 
+        await RedisCacheClient.del(`product:${id}`)
         await Repository.Delete({ id })
     }
 
@@ -88,8 +99,15 @@ export default abstract class Service {
         if (product === null)
             throw new DeletedResourceException()
 
-        if (alterQuantity < 0 && product.stock <= 0)
-            throw new ClientException("Produto sem estoque.")
+        if (alterQuantity < 0) {
+            if (product.stock + alterQuantity < 0)
+                throw new ClientException("Estoque ficará negativo.")
+
+            if (alterQuantity < 0 && product.stock <= 0)
+                throw new ClientException("Produto sem estoque.")
+        }
+
+        await RedisCacheClient.del(`product:${id}`)
 
         await Repository.UpdateStock({
             newProduct: {
