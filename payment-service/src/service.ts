@@ -1,6 +1,6 @@
 import { ClientException, DeletedResourceException, NotFoundException } from "./customException"
+import { KafkaClient, QueueClient, RedisCacheClient } from "."
 import { PaymentMethod, PaymentOrder, PaymentOrderInput } from "./types"
-import { RedisCacheClient } from "."
 import Repository from "./repository"
 
 type CreateProps = {
@@ -99,5 +99,15 @@ export default abstract class Service {
             paymentOrderId: paymentOrderId,
             statusId: statusId,
         })
+
+        if (statusId === 1) {
+            await QueueClient.SendPaymentApproval(new Date().getTime(), "paymentApproval")
+
+            await KafkaClient.productePaymentCreation({
+                orderId: paymentOrder.orderId,
+                payments: paymentOrder.payments.map(p => ({"total": p.total.toNumber(), "paymentMethodId": p.paymentMethodId})),
+                total: paymentOrder.total.toNumber(),
+            })
+        }
     }
 }

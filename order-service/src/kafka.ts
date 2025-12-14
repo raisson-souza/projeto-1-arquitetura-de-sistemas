@@ -1,5 +1,6 @@
-import { Kafka, Partitioners, Producer } from 'kafkajs'
+import { Consumer, Kafka, Partitioners, Producer } from 'kafkajs'
 import dotenv from 'dotenv'
+import Service from './service'
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ export default class KafkaService {
     private kafka: Kafka
     private producer: Producer
     private isConnected: boolean = false
+    private consumer: Consumer
 
     constructor() {
         this.kafka = new Kafka({
@@ -29,6 +31,7 @@ export default class KafkaService {
             },
         })
         this.producer = this.kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
+        this.consumer = this.kafka.consumer({ groupId: 'order-processing-group' }) 
         this.connect()
     }
 
@@ -38,6 +41,7 @@ export default class KafkaService {
                 await this.producer.connect()
                 this.isConnected = true
                 console.log('✅ Kafka Producer conectado com sucesso')
+                await this.startListening()
             } catch (error) {
                 console.error('❌ Erro ao conectar no Kafka:', error)
             }
@@ -67,5 +71,28 @@ export default class KafkaService {
 
     async produceOrderCreation(data: CreateOrderMessage) {
         await this.produce("orders", data.orderId, data)
+    }
+
+    
+    private async startListening() {
+        try {
+            await this.consumer.connect()
+            console.log('✅ Kafka Consumer conectado')
+
+            await this.consumer.subscribe({ topic: 'payments', fromBeginning: true })
+
+            await this.consumer.run({
+                eachMessage: async ({ message }) => {
+                    if (!message.value) return
+
+                    const data = JSON.parse(message.value.toString()) as CreateOrderMessage
+                    console.log("mensagem recebida")
+
+                    await Service.UpdateStock({ orderId: data.orderId })
+                },
+            })
+        } catch (error) {
+            console.error('❌ Erro no Consumer:', error)
+        }
     }
 }

@@ -21,6 +21,10 @@ type DeleteProps = GetProps
 
 type ListProps = {}
 
+type UpdateProductStockProps = {
+    orderId: string
+}
+
 export default abstract class Service {
     static async Create({ orderModel }: CreateProps): Promise<Order> {
         this.ValidateOrderProducts(orderModel.products)
@@ -127,6 +131,10 @@ export default abstract class Service {
 
     static async List({}: ListProps): Promise<Order[]> {
         return await Repository.List({})
+    }
+
+    static async UpdateStock({ orderId }: UpdateProductStockProps): Promise<void> {
+        console.log("ATT ESTOQUE AQUI")
     }
 
     private static ValidateOrderProducts(products: Product[]) {
