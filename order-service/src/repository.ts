@@ -38,7 +38,7 @@ export default abstract class Repository {
                 return this.parseOrder(result)
             })
             .catch(ex => {
-                if ((ex as Error).message === 'Cast to ObjectId failed for value "adfssvwv" (type string) at path "_id" for model "Order"')
+                if ((ex as Error).message.includes('at path "_id" for model "Order"'))
                     throw new NotFoundException()
                 throw new Error((ex as Error).message)
             })
