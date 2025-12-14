@@ -134,7 +134,21 @@ export default abstract class Service {
     }
 
     static async UpdateStock({ orderId }: UpdateProductStockProps): Promise<void> {
-        console.log("ATT ESTOQUE AQUI")
+        const order = await Repository.Get({ id: orderId })
+
+        for (const product of order.products) {
+            await productService.updateStock({
+                "alterQuantity": product.quantity * -1,
+                "id": product.id
+            })
+        }
+
+        Service.Update({
+            orderModel: {
+                ...order,
+                status: "Finalizado",
+            }
+        })
     }
 
     private static ValidateOrderProducts(products: Product[]) {

@@ -31,7 +31,7 @@ export default class KafkaService {
             },
         })
         this.producer = this.kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
-        this.consumer = this.kafka.consumer({ groupId: 'order-processing-group' }) 
+        this.consumer = this.kafka.consumer({ groupId: 'payments-processing-group' }) 
         this.connect()
     }
 
@@ -86,9 +86,8 @@ export default class KafkaService {
                     if (!message.value) return
 
                     const data = JSON.parse(message.value.toString()) as CreateOrderMessage
-                    console.log("mensagem recebida")
 
-                    await Service.UpdateStock({ orderId: data.orderId })
+                    Service.UpdateStock({ orderId: data.orderId })
                 },
             })
         } catch (error) {
