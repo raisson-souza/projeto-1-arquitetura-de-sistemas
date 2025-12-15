@@ -5,7 +5,7 @@ import { Decimal } from '@prisma/client/runtime/library'
 
 dotenv.config()
 
-const KAFKA_CONNECTION_URL = process.env["KAFKA_CONNECTION_URL"] ?? "localhost:3008"
+const KAFKA_CONNECTION_URL = process.env.KAFKA_CONNECTION_URL || "localhost:3008"
 
 type CreateOrderMessage = {
     orderId: string
