@@ -1,0 +1,1680 @@
+{
+	"info": {
+		"_postman_id": "2306783c-c140-4a48-88e5-9f135057d665",
+		"name": "Arquitetura-Sistemas-G1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28710784"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "ListProducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_URL}}/products/list",
+							"host": [
+								"{{PRODUCTS_URL}}"
+							],
+							"path": [
+								"products",
+								"list"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ListProducts",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{PRODUCTS_URL}}/products/list",
+									"host": [
+										"{{PRODUCTS_URL}}"
+									],
+									"path": [
+										"products",
+										"list"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "678"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a6-52fdh2znjyUTOoa6zaWPZSQapeg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:18:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Notebook Samsung Odyssey\",\n        \"price\": 5000,\n        \"stock\": 2,\n        \"deleted\": false,\n        \"createdAt\": \"2025-11-19T13:31:04.223Z\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Teclado Mecânico Redragon\",\n        \"price\": 200,\n        \"stock\": 10,\n        \"deleted\": false,\n        \"createdAt\": \"2025-11-19T13:31:04.223Z\"\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Mouse Gamer\",\n        \"price\": 100,\n        \"stock\": 5,\n        \"deleted\": false,\n        \"createdAt\": \"2025-11-19T13:31:04.223Z\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Headseat Gamer Anti-ruído\",\n        \"price\": 300,\n        \"stock\": 1,\n        \"deleted\": false,\n        \"createdAt\": \"2025-11-19T13:31:04.223Z\"\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Teste\",\n        \"price\": 200,\n        \"stock\": 10,\n        \"deleted\": false,\n        \"createdAt\": \"2025-12-14T17:04:40.187Z\"\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Teste\",\n        \"price\": 200,\n        \"stock\": 10,\n        \"deleted\": false,\n        \"createdAt\": \"2025-12-14T17:04:41.646Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "CreateProduct",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"a\",\r\n    \"price\": 200,\r\n    \"stock\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCTS_URL}}/products/",
+							"host": [
+								"{{PRODUCTS_URL}}"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "CreateProduct",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Teste\",\r\n    \"price\": 200,\r\n    \"stock\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PRODUCTS_URL}}/products/",
+									"host": [
+										"{{PRODUCTS_URL}}"
+									],
+									"path": [
+										"products",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "101"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"65-l96Z9/LdVdzpW+W6kztaM91otII\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:04:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"id\": 6,\n    \"name\": \"Teste\",\n    \"price\": 200,\n    \"stock\": 10,\n    \"deleted\": false,\n    \"createdAt\": \"2025-12-14T17:04:41.646Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "PutProduct",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 7,\r\n    \"name\": \"Novo teste\",\r\n    \"price\": 50,\r\n    \"stock\": 1,\r\n    \"createdAt\": \"2025-12-01T00:00:00.000\",\r\n    \"deleted\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCTS_URL}}/products/",
+							"host": [
+								"{{PRODUCTS_URL}}"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "PutProduct",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 7,\r\n    \"name\": \"Novo teste\",\r\n    \"price\": 50,\r\n    \"stock\": 1,\r\n    \"createdAt\": \"2025-12-01T00:00:00.000\",\r\n    \"deleted\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PRODUCTS_URL}}/products/",
+									"host": [
+										"{{PRODUCTS_URL}}"
+									],
+									"path": [
+										"products",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "104"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"68-jNkCYb1XX6W9oFb6QH4/I6ZSo2g\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:10:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 7,\n    \"name\": \"Novo teste\",\n    \"price\": 50,\n    \"stock\": 1,\n    \"deleted\": false,\n    \"createdAt\": \"2025-12-01T03:00:00.000Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateStock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"alterQuantity\": 2,\r\n    \"id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCTS_URL}}/products/update_stock",
+							"host": [
+								"{{PRODUCTS_URL}}"
+							],
+							"path": [
+								"products",
+								"update_stock"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "UpdateStock",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"alterQuantity\": 2,\r\n    \"id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PRODUCTS_URL}}/products/update_stock",
+									"host": [
+										"{{PRODUCTS_URL}}"
+									],
+									"path": [
+										"products",
+										"update_stock"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-VDhaDG8cL4KJG8gOqMWUhFv9pwA\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:16:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Estoque atualizado com sucesso."
+						}
+					]
+				},
+				{
+					"name": "DeleteProduct",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_URL}}/products?id=7",
+							"host": [
+								"{{PRODUCTS_URL}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "DeleteProduct",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{PRODUCTS_URL}}/products?id=7",
+									"host": [
+										"{{PRODUCTS_URL}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-jHaYKyOLfh2sUCY5aSYHLydH5lQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:17:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Registro deletado com sucesso."
+						}
+					]
+				},
+				{
+					"name": "GetProduct",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCTS_URL}}/products/?id=1",
+							"host": [
+								"{{PRODUCTS_URL}}"
+							],
+							"path": [
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetProduct",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{PRODUCTS_URL}}/products/?id=1",
+									"host": [
+										"{{PRODUCTS_URL}}"
+									],
+									"path": [
+										"products",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "120"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"78-KNsrBtUbPfc0NsAySGrBYXLev9A\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:11:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Notebook Samsung Odyssey\",\n    \"price\": 5000,\n    \"stock\": 5,\n    \"deleted\": false,\n    \"createdAt\": \"2025-11-19T13:31:04.223Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "ListOrders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ORDERS_URL}}/orders/list",
+							"host": [
+								"{{ORDERS_URL}}"
+							],
+							"path": [
+								"orders",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateOrders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\": 1,\r\n    \"total\": 100,\r\n    \"paymentMethodId\": 1,\r\n    \"payment\": {\r\n        \"payments\": [\r\n            {\r\n                \"total\": 100,\r\n                \"paymentMethodId\": 1\r\n            }\r\n        ]\r\n    },\r\n    \"products\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"Mouse Gamer\",\r\n            \"quantity\": 1,\r\n            \"price\": 100\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ORDERS_URL}}/orders/",
+							"host": [
+								"{{ORDERS_URL}}"
+							],
+							"path": [
+								"orders",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "CreateOrders",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientId\": 1,\r\n    \"total\": 100,\r\n    \"paymentMethodId\": 1,\r\n    \"payment\": {\r\n        \"payments\": [\r\n            {\r\n                \"total\": 100,\r\n                \"paymentMethodId\": 1\r\n            }\r\n        ]\r\n    },\r\n    \"products\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"Mouse Gamer\",\r\n            \"quantity\": 1,\r\n            \"price\": 100\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ORDERS_URL}}/orders/",
+									"host": [
+										"{{ORDERS_URL}}"
+									],
+									"path": [
+										"orders",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "202"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ca-BjRyf1cKpKM3AcNoW4SXKPMZGPI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:57:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"693efa6eb07cc9c3e808b7e7\",\n    \"clientId\": 1,\n    \"status\": \"Em Aberto\",\n    \"total\": 100,\n    \"products\": [\n        {\n            \"id\": 3,\n            \"name\": \"Mouse Gamer\",\n            \"quantity\": 1,\n            \"price\": 100\n        }\n    ],\n    \"deleted\": false,\n    \"createdAt\": \"2025-12-14T17:57:02.592Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "PutOrders",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"clientId\": 1,\r\n    \"paymentMethodId\": 2,\r\n    \"products\": [\r\n        {\r\n            \"quantity\": 1,\r\n            \"id\": 1\r\n        },\r\n        {\r\n            \"quantity\": 1,\r\n            \"id\": 3\r\n        }\r\n    ],\r\n    \"status\": 1,\r\n    \"createdAt\": \"2025-12-01T00:00:00.000\",\r\n    \"deleted\": false,\r\n    \"total\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ORDERS_URL}}/orders/",
+							"host": [
+								"{{ORDERS_URL}}"
+							],
+							"path": [
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteOrders",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ORDERS_URL}}/orders?id=691dc6cd23c52611bb875d94",
+							"host": [
+								"{{ORDERS_URL}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "691dc6cd23c52611bb875d94"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOrders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ORDERS_URL}}/orders?id=691dc6d964e5154513d79f84",
+							"host": [
+								"{{ORDERS_URL}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "691dc6d964e5154513d79f84"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetOrders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ORDERS_URL}}/orders?id=691dc6d964e5154513d79f84",
+									"host": [
+										"{{ORDERS_URL}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "691dc6d964e5154513d79f84"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "186"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ba-wTzR5vCplJ1dJZsa35o4FVKOXPg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:47:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"691dc6d964e5154513d79f84\",\n    \"clientId\": 1,\n    \"status\": \"Em Aberto\",\n    \"total\": 100,\n    \"products\": [\n        {\n            \"id\": 3,\n            \"name\": \"Mouse Gamer\",\n            \"quantity\": 1,\n            \"price\": 100\n        }\n    ],\n    \"createdAt\": \"2025-11-19T13:32:09.662Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "ListPayments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PAYMENTS_URL}}/payments/list",
+							"host": [
+								"{{PAYMENTS_URL}}"
+							],
+							"path": [
+								"payments",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreatePayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"693f01eb2a6e5c2743393d72\",\r\n    \"total\": 100,\r\n    \"payments\": [{\r\n        \"total\": 100,\r\n        \"paymentMethodId\": 1\r\n    }],\r\n    \"statusId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PAYMENTS_URL}}/payments/",
+							"host": [
+								"{{PAYMENTS_URL}}"
+							],
+							"path": [
+								"payments",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "CreateOrders",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientId\": 1,\r\n    \"total\": 100,\r\n    \"paymentMethodId\": 1,\r\n    \"payment\": {\r\n        \"payments\": [\r\n            {\r\n                \"total\": 100,\r\n                \"paymentMethodId\": 1\r\n            }\r\n        ]\r\n    },\r\n    \"products\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"Mouse Gamer\",\r\n            \"quantity\": 1,\r\n            \"price\": 100\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ORDERS_URL}}/orders/",
+									"host": [
+										"{{ORDERS_URL}}"
+									],
+									"path": [
+										"orders",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "202"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ca-BjRyf1cKpKM3AcNoW4SXKPMZGPI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:57:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"693efa6eb07cc9c3e808b7e7\",\n    \"clientId\": 1,\n    \"status\": \"Em Aberto\",\n    \"total\": 100,\n    \"products\": [\n        {\n            \"id\": 3,\n            \"name\": \"Mouse Gamer\",\n            \"quantity\": 1,\n            \"price\": 100\n        }\n    ],\n    \"deleted\": false,\n    \"createdAt\": \"2025-12-14T17:57:02.592Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Process",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"paymentOrderId\": 3810,\r\n    \"statusId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PAYMENTS_URL}}/payments/process",
+							"host": [
+								"{{PAYMENTS_URL}}"
+							],
+							"path": [
+								"payments",
+								"process"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "CreateOrders",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientId\": 1,\r\n    \"total\": 100,\r\n    \"paymentMethodId\": 1,\r\n    \"payment\": {\r\n        \"payments\": [\r\n            {\r\n                \"total\": 100,\r\n                \"paymentMethodId\": 1\r\n            }\r\n        ]\r\n    },\r\n    \"products\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"Mouse Gamer\",\r\n            \"quantity\": 1,\r\n            \"price\": 100\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ORDERS_URL}}/orders/",
+									"host": [
+										"{{ORDERS_URL}}"
+									],
+									"path": [
+										"orders",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "202"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ca-BjRyf1cKpKM3AcNoW4SXKPMZGPI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:57:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"693efa6eb07cc9c3e808b7e7\",\n    \"clientId\": 1,\n    \"status\": \"Em Aberto\",\n    \"total\": 100,\n    \"products\": [\n        {\n            \"id\": 3,\n            \"name\": \"Mouse Gamer\",\n            \"quantity\": 1,\n            \"price\": 100\n        }\n    ],\n    \"deleted\": false,\n    \"createdAt\": \"2025-12-14T17:57:02.592Z\"\n}"
+						},
+						{
+							"name": "CreatePayment Copy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"paymentOrderId\": 3808,\r\n    \"statusId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PAYMENTS_URL}}/payments/process",
+									"host": [
+										"{{PAYMENTS_URL}}"
+									],
+									"path": [
+										"payments",
+										"process"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-aJpj3mhqV1qDWoOT7H2suckrHE8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 20:59:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Pagamento atualizado com sucesso."
+						}
+					]
+				},
+				{
+					"name": "PutPayment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3807,\r\n    \"orderId\": \"693f01eb2a6e5c2743393d72\",\r\n    \"total\": 100,\r\n    \"payments\": [{\r\n        \"total\": 100,\r\n        \"paymentMethodId\": 1\r\n    }],\r\n    \"statusId\": 1,\r\n    \"createdAt\": \"2025-12-01T00:00:00.000\",\r\n    \"deleted\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PAYMENTS_URL}}/payments/",
+							"host": [
+								"{{PAYMENTS_URL}}"
+							],
+							"path": [
+								"payments",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "PutPayment",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 3807,\r\n    \"orderId\": \"693f01eb2a6e5c2743393d72\",\r\n    \"total\": 100,\r\n    \"payments\": [{\r\n        \"total\": 100,\r\n        \"paymentMethodId\": 1\r\n    }],\r\n    \"statusId\": 1,\r\n    \"createdAt\": \"2025-12-01T00:00:00.000\",\r\n    \"deleted\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PAYMENTS_URL}}/payments/",
+									"host": [
+										"{{PAYMENTS_URL}}"
+									],
+									"path": [
+										"payments",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "300"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"12c-YYFBPS+G6k36/hw0A0/OQHwDiLo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 20:44:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3807,\n    \"total\": \"100\",\n    \"orderId\": \"693f01eb2a6e5c2743393d72\",\n    \"statusId\": 1,\n    \"createdAt\": \"2025-12-01T03:00:00.000Z\",\n    \"deleted\": false,\n    \"payments\": [\n        {\n            \"id\": 3805,\n            \"total\": \"100\",\n            \"transactionId\": null,\n            \"statusId\": 1,\n            \"paymentMethodId\": 1,\n            \"paymentOrderId\": 3807,\n            \"createdAt\": \"2025-12-14T18:31:02.498Z\",\n            \"deleted\": false\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "DeletePayment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{PAYMENTS_URL}}/payments?id=3807",
+							"host": [
+								"{{PAYMENTS_URL}}"
+							],
+							"path": [
+								"payments"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3807"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPayment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PAYMENTS_URL}}/payments?id=3808",
+							"host": [
+								"{{PAYMENTS_URL}}"
+							],
+							"path": [
+								"payments"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3808"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetOrders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ORDERS_URL}}/orders?id=691dc6d964e5154513d79f84",
+									"host": [
+										"{{ORDERS_URL}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "691dc6d964e5154513d79f84"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "186"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ba-wTzR5vCplJ1dJZsa35o4FVKOXPg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:47:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"691dc6d964e5154513d79f84\",\n    \"clientId\": 1,\n    \"status\": \"Em Aberto\",\n    \"total\": 100,\n    \"products\": [\n        {\n            \"id\": 3,\n            \"name\": \"Mouse Gamer\",\n            \"quantity\": 1,\n            \"price\": 100\n        }\n    ],\n    \"createdAt\": \"2025-11-19T13:32:09.662Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "ListUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USERS_URL}}/users/list",
+							"host": [
+								"{{USERS_URL}}"
+							],
+							"path": [
+								"users",
+								"list"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ListClients",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USERS_URL}}/users/list",
+									"host": [
+										"{{USERS_URL}}"
+									],
+									"path": [
+										"users",
+										"list"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "133"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"85-e4C1qOO89IPYvwls9iGAZTRfayo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:23:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Administrador\",\n        \"email\": \"administrador@gmail.com\",\n        \"typeId\": 1,\n        \"deleted\": false,\n        \"createdAt\": \"2025-11-19T13:31:05.517Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"raisson\",\r\n   \"email\": \"raisson@email.com\",\r\n   \"typeId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USERS_URL}}/users/",
+							"host": [
+								"{{USERS_URL}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "CreateClients",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"name\": \"raisson\",\r\n   \"email\": \"raisson@email.com\",\r\n   \"typeId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{USERS_URL}}/users/",
+									"host": [
+										"{{USERS_URL}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "119"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"77-gRcOzV1nlu0QZdW9L8UjVcWbiBA\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:24:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"name\": \"raisson\",\n    \"email\": \"raisson@email.com\",\n    \"typeId\": 2,\n    \"deleted\": false,\n    \"createdAt\": \"2025-12-14T17:24:43.929Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"raisson\",\r\n   \"email\": \"raisson@email.com\",\r\n   \"typeId\": 2,\r\n   \"createdAt\": \"2025-12-01T00:00:00.000\",\r\n   \"deleted\": false,\r\n   \"id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USERS_URL}}/users/",
+							"host": [
+								"{{USERS_URL}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USERS_URL}}/users?id=1",
+							"host": [
+								"{{USERS_URL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetClients",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USERS_URL}}/users?id=1",
+									"host": [
+										"{{USERS_URL}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "131"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"83-pUSKDbR4yRCAROWfm18kqfMs/Y4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:25:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Administrador\",\n    \"email\": \"administrador@gmail.com\",\n    \"typeId\": 1,\n    \"deleted\": false,\n    \"createdAt\": \"2025-11-19T13:31:05.517Z\"\n}"
+						},
+						{
+							"name": "GetClients",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{USERS_URL}}/users?id=1",
+									"host": [
+										"{{USERS_URL}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "131"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"83-pUSKDbR4yRCAROWfm18kqfMs/Y4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 14 Dec 2025 17:27:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Administrador\",\n    \"email\": \"administrador@gmail.com\",\n    \"typeId\": 1,\n    \"deleted\": false,\n    \"createdAt\": \"2025-11-19T13:31:05.517Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{USERS_URL}}/users?id=2",
+							"host": [
+								"{{USERS_URL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "kong",
+			"item": [
+				{
+					"name": "CreateOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\": 1,\r\n    \"total\": 100,\r\n    \"paymentMethodId\": 1,\r\n    \"payment\": {\r\n        \"payments\": [\r\n            {\r\n                \"total\": 100,\r\n                \"paymentMethodId\": 1\r\n            }\r\n        ]\r\n    },\r\n    \"products\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"Mouse Gamer\",\r\n            \"quantity\": 1,\r\n            \"price\": 100\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KONG_URL}}/orders",
+							"host": [
+								"{{KONG_URL}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"paymentOrderId\": 3,\r\n    \"statusId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KONG_URL}}/payments/process",
+							"host": [
+								"{{KONG_URL}}"
+							],
+							"path": [
+								"payments",
+								"process"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ORDERS_URL",
+			"value": ""
+		},
+		{
+			"key": "PRODUCTS_URL",
+			"value": ""
+		},
+		{
+			"key": "USERS_URL",
+			"value": ""
+		},
+		{
+			"key": "PAYMENTS_URL",
+			"value": ""
+		},
+		{
+			"key": "KONG_URL",
+			"value": ""
+		}
+	]
+}
