@@ -1,10 +1,10 @@
 # Defina as URLs e Portas dos microsserviços
 
 ```bash
-export PRODUCTS_URL="http://localhost:8000"
-export ORDERS_URL="http://localhost:8001"
-export PAYMENTS_URL="http://localhost:8002"
-export USERS_URL="http://localhost:8003"
+export PRODUCTS_URL="http://localhost:8003/api"
+export ORDERS_URL="http://localhost:8001/api"
+export PAYMENTS_URL="http://localhost:8002/api"
+export USERS_URL="http://localhost:8004/api"
 ```
 
 # Listar Produtos
